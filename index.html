@@ -1,0 +1,204 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#fff1f5">
+<title>A Little Something For Kaylla 🌷</title>
+<style>
+*{box-sizing:border-box}
+body{
+ margin:0;min-height:100vh;font-family:Georgia,serif;color:#79475d;
+ background:linear-gradient(160deg,#fff8fb,#ffe8f0,#fff5f8);
+ text-align:center;overflow-x:hidden
+}
+header{padding:24px 16px 8px}
+.flower{font-size:30px;letter-spacing:10px}
+h1{font-size:clamp(30px,7vw,46px);font-weight:normal;margin:16px 0 8px}
+.subtitle{font-size:15px;color:#a5798c;line-height:1.7}
+main{width:min(92%,620px);margin:18px auto 40px}
+.card{
+ background:#ffffffd9;border:1px solid #f8d9e4;border-radius:24px;
+ padding:clamp(22px,5vw,38px);margin:18px 0;
+ box-shadow:0 12px 35px #bd7b9412
+}
+.label{font:11px Arial,sans-serif;text-transform:uppercase;letter-spacing:3px;color:#c17b99}
+h2{font-size:25px;font-weight:normal;margin:18px 0}
+#message,#birthdayLetter{font-size:18px;line-height:1.95;white-space:pre-line}
+button{
+ border:0;border-radius:30px;padding:14px 23px;background:#eaa0ba;
+ color:white;font-size:14px;cursor:pointer;margin:8px 4px
+}
+button:hover{background:#d986a6}
+button:focus-visible{outline:3px solid #8f5870;outline-offset:3px}
+#surprise{display:none;margin-top:20px;font-size:17px;line-height:1.8}
+.countdown{display:flex;justify-content:center;gap:12px;margin:25px 0 10px}
+.timebox{background:#fff1f6;border-radius:15px;padding:14px 8px;min-width:60px;flex:1;max-width:100px}
+.timebox strong{display:block;font-size:27px;font-weight:normal}
+.timebox span{font:10px Arial,sans-serif;letter-spacing:1px}
+footer{padding:10px 20px 36px;font-size:13px;color:#b18295;line-height:1.8}
+.petal{position:fixed;top:-30px;pointer-events:none;animation:fall linear forwards;z-index:5}
+@keyframes fall{to{transform:translateY(110vh) rotate(360deg);opacity:.2}}
+.hidden{display:none}
+.signature{font-size:17px;color:#c17b99}
+@media(max-width:380px){
+ .countdown{gap:6px}.timebox{min-width:0;padding:12px 4px}
+ .timebox strong{font-size:23px}
+}
+</style>
+</head>
+<body>
+<header>
+ <div class="flower">🌷 ✿ 🌸</div>
+ <h1>A Little Something For Kaylla</h1>
+ <div class="subtitle">
+  A little corner of the internet made just for you.<br>
+  A new little reminder, just for you, every day. ♡
+ </div>
+</header>
+
+<main>
+ <section class="card">
+  <div class="label" id="dayLabel">A LITTLE REMINDER FOR TODAY</div>
+  <h2 id="messageTitle">For you, with a little love ♡</h2>
+  <div id="message">Loading your little reminder...</div>
+  <p style="color:#d59ab0;margin-top:24px">♡</p>
+  <button id="surpriseButton" onclick="showSurprise()">A little more? ✨</button>
+  <div id="surprise"></div>
+ </section>
+
+ <section class="card">
+  <div class="label">A special day is getting closer</div>
+  <h2>Your birthday countdown 🎂</h2>
+  <p class="subtitle">A little closer to your special day, every day.</p>
+  <div class="countdown">
+   <div class="timebox"><strong id="days">--</strong><span>DAYS</span></div>
+   <div class="timebox"><strong id="hours">--</strong><span>HOURS</span></div>
+   <div class="timebox"><strong id="minutes">--</strong><span>MINUTES</span></div>
+   <div class="timebox"><strong id="seconds">--</strong><span>SECONDS</span></div>
+  </div>
+  <p class="subtitle">13 December ♡</p>
+ </section>
+
+ <section class="card hidden" id="birthdayCard">
+  <div style="font-size:42px">🎂💗🌷</div>
+  <h2>Happy Birthday, Kaylla! ♡</h2>
+  <div id="birthdayLetter">
+   Today is your day, Kaylla. 🩷
+
+   I hope this new chapter brings you happiness that stays, laughter that makes your cheeks hurt, and countless little moments worth remembering.
+
+   Never forget that you are your own kind of wonderful. You deserve kindness, peace, love, and every beautiful thing life has waiting for you.
+
+   Thank you for being you. I hope today reminds you just how special you are. ♡
+  </div>
+ </section>
+</main>
+
+<footer>
+ Made with a little thought and a whole lot of care. ♡<br>
+ Come back tomorrow for another little reminder. 🌸<br><br>
+ <span class="signature">Made with love by Vannie ♡</span>
+</footer>
+
+<script>
+/* YOUR DAILY MESSAGES
+   Add or edit messages inside this list whenever you want. */
+
+const messages = [
+ {title:"A little welcome 🌷",text:"Hey, Kaylla. ♡\n\nIf you're reading this, I hope you've had at least one reason to smile today. This little space is here to remind you that ordinary days can still hold beautiful little things. Take a breath, be kind to yourself, and remember that you deserve good things."},
+ {title:"A reminder about you 🌸",text:"I hope you never feel like you have to be perfect to be appreciated. You can have quiet days, messy days, and days when you don't feel like yourself. You are still worthy of kindness on every single one of them."},
+ {title:"Keep that smile ♡",text:"There's something lovely about people who can make a moment feel lighter without even trying. I hope life gives you plenty of reasons to laugh today, Kaylla, and I hope you get to enjoy those little moments instead of rushing past them."},
+ {title:"You deserve softness 🩷",text:"May today be gentle with you. May the things worrying you feel a little smaller, may something unexpected make you happy, and may you remember to give yourself the same kindness you give to everyone else."},
+ {title:"A tiny bit of encouragement 🌷",text:"Whatever you're working towards, please don't underestimate yourself. Progress doesn't always look impressive while it's happening. Sometimes showing up and trying again is already something to be proud of."},
+ {title:"Something to remember ✨",text:"You don't have to earn rest. You don't have to make everyone happy. And you don't have to have every part of your life figured out right now. Take your time. You're allowed to grow at your own pace."},
+ {title:"A little appreciation 💌",text:"Some people have a way of making life feel a little brighter just by being themselves. Never think that you need to do something extraordinary to be worth appreciating. Sometimes being you is already more than enough."},
+ {title:"You are allowed to bloom 🌷",text:"Flowers don't all bloom at the same time, and neither do people. Please don't compare your journey to someone else's. There is no deadline for becoming the person you're meant to be."},
+ {title:"For the days that feel long ☁️",text:"If today is one of those days when everything feels like a little too much, take it one thing at a time. Drink some water, breathe, and give yourself permission to begin again. One difficult day doesn't define your life."},
+ {title:"A little light 💗",text:"Some days are sunny, some are cloudy, and some are somewhere in between. Whatever kind of day this is, I hope you find a little light in it. Cloudy skies don't last forever."},
+ {title:"You deserve good things 🌸",text:"I hope good things find you in unexpected ways. I hope the opportunities you want come closer, the worries you carry get lighter, and the people around you remind you how valuable you are."},
+ {title:"A little pause ♡",text:"Take a moment to relax your shoulders and breathe. You have made it through every difficult day you've faced so far. Give yourself credit for that. You're doing better than you sometimes think."},
+ {title:"The little things matter 🌷",text:"A kind word, a genuine laugh, a message at the right time, a memory you replay because it makes you happy. Life is made of little things like these. I hope today gives you one worth keeping."},
+ {title:"Keep being you 🌸",text:"There's no need to have the perfect words, the perfect outfit, or the perfect plan. Life isn't an audition. Be yourself, take your chances, make your memories, and let yourself enjoy being here."},
+ {title:"You matter more than you know 💌",text:"You might never know all the little ways you affect the people around you. A kind response or a smile can stay in someone's mind long after the moment has passed. Never underestimate the good you bring into the world."},
+ {title:"A soft thought for today 🌷",text:"You deserve friendships that feel safe, conversations where you can be honest, and people who are happy to see you win. Never settle for believing that care and kindness are things you must beg for."},
+ {title:"A little courage ♡",text:"It's okay to be nervous about new things. Courage doesn't mean you never feel afraid; it means you give yourself a chance even when you do. Whatever is ahead of you, remember what you're capable of."},
+ {title:"Your smile deserves a reason 🌸",text:"I hope something catches you off guard today in the best possible way. A silly joke, an unexpected compliment, a song you forgot you loved. You deserve moments that make you smile before you even realise you're smiling."},
+ {title:"A little peace 🩷",text:"Not everything needs to be solved today. Some things need time, some need patience, and some need you to stop carrying them for a while. You can take a break without giving up."},
+ {title:"A little kindness for yourself 🌷",text:"Try speaking to yourself the way you would speak to someone you care about. You deserve that same gentleness, too."},
+ {title:"A reason to look forward 🌟",text:"There is still so much ahead of you that you can't predict yet. Some of it will be challenging, some wonderful, and some might become your favourite memory. Keep going gently."},
+ {title:"A little birthday-season magic ✨",text:"Kaylla, I hope this season brings you reasons to smile that you didn't see coming. May you feel appreciated in the little things, loved in the ways that matter, and hopeful about all the lovely things still ahead."},
+ {title:"One day closer 🎂",text:"Your birthday is getting closer, but today is still worth enjoying on its own. Take a moment for yourself, celebrate a small win, and remember that you don't need to wait for a special day to deserve a little happiness."},
+ {title:"Tomorrow is your day 🌸",text:"One more sleep until your special day. I hope you go into it knowing that you deserve to feel celebrated, not just tomorrow, but throughout the whole year. May the next chapter be gentle, exciting, and full of beautiful surprises."}
+];
+
+const startDate = new Date(2026,9,16);
+const birthday = new Date(2026,11,13,0,0,0);
+const nowDate = new Date();
+const today = new Date(nowDate.getFullYear(),nowDate.getMonth(),nowDate.getDate());
+const dayIndex = Math.floor((today-startDate)/86400000);
+
+function updatePage(){
+ const now = new Date();
+ const remaining = Math.max(0,birthday-now);
+ document.getElementById("days").textContent=Math.floor(remaining/86400000);
+ document.getElementById("hours").textContent=Math.floor(remaining/3600000)%24;
+ document.getElementById("minutes").textContent=Math.floor(remaining/60000)%60;
+ document.getElementById("seconds").textContent=Math.floor(remaining/1000)%60;
+
+ if(now>=birthday){
+  document.getElementById("birthdayCard").classList.remove("hidden");
+  document.getElementById("dayLabel").textContent="TODAY IS YOUR SPECIAL DAY";
+  document.getElementById("messageTitle").textContent="Happy Birthday, Kaylla! 🎂";
+  document.getElementById("message").textContent="Today is all about celebrating you. I hope your day is full of love, laughter, and memories you'll want to keep forever. ♡";
+  document.getElementById("surpriseButton").style.display="none";
+  return;
+ }
+
+ if(dayIndex<0){
+  document.getElementById("messageTitle").textContent="Something lovely is coming 🌷";
+  document.getElementById("message").textContent="Your first little reminder will be waiting when the countdown begins. ♡";
+  return;
+ }
+
+ const index=dayIndex%messages.length;
+ document.getElementById("dayLabel").textContent="DAY "+(dayIndex+1)+" OF YOUR LITTLE COUNTDOWN";
+ document.getElementById("messageTitle").textContent=messages[index].title;
+ document.getElementById("message").textContent=messages[index].text;
+ if(Math.floor(remaining/86400000)===1)document.getElementById("dayLabel").textContent="ONE MORE SLEEP ♡";
+}
+
+function showSurprise(){
+ const surprises=[
+  "Kaylla, here's your reminder to drink some water, relax your shoulders, and be kind to yourself. 🌷",
+  "If today hasn't been great, that doesn't mean tomorrow can't be. You can always begin again. ♡",
+  "Somewhere in your future, there are memories you'll look back on and smile about. Keep going. 🌸",
+  "You deserve the same kindness you give to the people you care about. Don't forget yourself. 💗",
+  "Little reminder: you don't have to be perfect to be wonderful. Just keep being you. ✨",
+  "I hope something makes you smile today. And if it does, I hope you remember that moment. 🌷"
+ ];
+ document.getElementById("surprise").style.display="block";
+ document.getElementById("surprise").textContent=surprises[Math.floor(Math.random()*surprises.length)];
+ document.getElementById("surpriseButton").textContent="Another little reminder ♡";
+}
+
+function makePetal(){
+ const petal=document.createElement("div");
+ petal.className="petal";
+ petal.textContent=["🌸","🌷","♡","✿"][Math.floor(Math.random()*4)];
+ petal.style.left=Math.random()*100+"vw";
+ petal.style.fontSize=(12+Math.random()*14)+"px";
+ const duration=8+Math.random()*8;
+ petal.style.animationDuration=duration+"s";
+ document.body.appendChild(petal);
+ setTimeout(()=>petal.remove(),duration*1000);
+}
+
+updatePage();
+setInterval(updatePage,1000);
+setInterval(makePetal,1800);
+</script>
+</body>
+</html>
+
