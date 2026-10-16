@@ -5,334 +5,656 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#fff0f6">
-<title>A Little Something For Kaylla 🌷</title>
+<title>A Little Something For Kaylla ♡</title>
+
 <style>
 :root {
-  --pink: #f7b8d0;
-  --dark-pink: #bd527f;
-  --text: #70475a;
+  --pink: #f3a6c5;
+  --deep-pink: #d96f9b;
+  --light-pink: #fff0f6;
+  --text: #694b5b;
+  --muted: #9b7b8b;
 }
-* { box-sizing: border-box; }
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
 body {
-  margin: 0;
-  font-family: Georgia, "Times New Roman", serif;
-  color: var(--text);
-  background: linear-gradient(150deg,#fff5f9,#ffe5ef,#fff8fb);
-  text-align: center;
-  overflow-x: hidden;
   min-height: 100vh;
+  overflow-x: hidden;
+  color: var(--text);
+  font-family: Georgia, "Times New Roman", serif;
+  background:
+    radial-gradient(ellipse at 10% 10%, #ffe0ed 0%, transparent 35%),
+    radial-gradient(ellipse at 90% 40%, #ffe8f1 0%, transparent 38%),
+    linear-gradient(150deg, #fff9fc, #fff0f6, #fffafd);
 }
-#heartBackground {
+
+button { font: inherit; }
+
+button:focus-visible {
+  outline: 3px solid #c45c8a;
+  outline-offset: 4px;
+}
+
+#heart-background {
   position: fixed;
   inset: 0;
   overflow: hidden;
   pointer-events: none;
   z-index: 0;
 }
-.heart {
+
+.floating-heart {
   position: absolute;
-  bottom: -50px;
-  color: #e88bb1;
+  bottom: -45px;
+  color: #e995b7;
   opacity: 0;
   animation: floatHeart linear infinite;
-  text-shadow: 0 2px 8px #f7b8d055;
+  user-select: none;
 }
+
 @keyframes floatHeart {
   0% { transform: translateY(0) rotate(0deg); opacity: 0; }
-  10% { opacity: .45; }
-  85% { opacity: .35; }
-  100% { transform: translateY(-115vh) rotate(25deg); opacity: 0; }
+  15% { opacity: 0.42; }
+  85% { opacity: 0.28; }
+  100% { transform: translateY(-115vh) rotate(28deg); opacity: 0; }
 }
-header, main, footer {
+
+.page {
   position: relative;
   z-index: 1;
+  width: min(760px, 92%);
+  margin: auto;
+  padding: 30px 0 25px;
 }
-header { padding: 42px 18px 25px; }
-h1 {
-  color: var(--dark-pink);
-  font-size: clamp(2rem,7vw,3.2rem);
-  margin: 8px 0;
+
+.top-note {
+  text-align: center;
+  color: var(--deep-pink);
+  font-family: Arial, sans-serif;
+  font-size: 11px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  margin: 10px 0 28px;
 }
-h2 { color: var(--dark-pink); }
-p { line-height: 1.8; }
-.subtitle { font-style: italic; }
+
+.hero {
+  text-align: center;
+  padding: 40px 16px 48px;
+  animation: fadeIn 1.2s ease both;
+}
+
 .flower {
-  font-size: 2rem;
-  animation: floatFlower 3s ease-in-out infinite;
+  display: inline-block;
+  color: #e68bb0;
+  font-size: 43px;
+  margin-bottom: 15px;
+  animation: gentleTurn 12s linear infinite;
 }
-@keyframes floatFlower {
-  0%,100% { transform: translateY(0); }
-  50% { transform: translateY(-8px); }
+
+@keyframes gentleTurn { to { transform: rotate(360deg); } }
+
+h1 {
+  font-size: clamp(40px, 8vw, 68px);
+  font-weight: normal;
+  line-height: 1.13;
+  letter-spacing: -1.5px;
+  color: #c96f96;
+  margin-bottom: 22px;
 }
-main { width: min(680px,92%); margin: auto; }
-.card {
-  background: rgba(255,255,255,.88);
-  border: 1px solid #f9d1e0;
-  border-radius: 22px;
-  padding: 24px 20px;
-  margin: 20px 0;
-  box-shadow: 0 8px 25px rgba(189,82,127,.09);
-  backdrop-filter: blur(3px);
+
+.hero-subtitle {
+  max-width: 520px;
+  margin: auto;
+  font-size: 17px;
+  line-height: 1.9;
+  color: var(--muted);
 }
-button {
-  background: var(--dark-pink);
-  color: white;
-  border: 0;
+
+.small-divider {
+  text-align: center;
+  margin: 28px auto;
+  color: #d98cac;
+  letter-spacing: 9px;
+  font-size: 17px;
+}
+
+.section-card {
+  background: rgba(255, 255, 255, 0.82);
+  border: 1px solid rgba(230, 170, 196, 0.4);
+  border-radius: 25px;
+  padding: 30px 27px;
+  margin: 22px 0;
+  box-shadow: 0 12px 38px rgba(177, 101, 136, 0.075);
+  backdrop-filter: blur(8px);
+  animation: fadeIn 0.8s ease both;
+}
+
+h2 {
+  color: #c66e95;
+  font-size: 27px;
+  font-weight: normal;
+  text-align: center;
+  line-height: 1.35;
+  margin-bottom: 17px;
+}
+
+.section-intro {
+  text-align: center;
+  color: var(--muted);
+  line-height: 1.9;
+  font-size: 15px;
+  margin: 0 auto 20px;
+  max-width: 550px;
+}
+
+p { line-height: 1.9; }
+
+.button-wrap { text-align: center; margin-top: 23px; }
+
+.pretty-button {
+  display: inline-block;
+  border: 1px solid #e9b2c9;
+  background: linear-gradient(135deg, #f7c4d9, #eaa3c2);
+  color: #78435b;
   border-radius: 30px;
-  padding: 12px 20px;
-  font-size: 1rem;
+  padding: 13px 23px;
   cursor: pointer;
-  margin: 7px 4px;
-  font-family: inherit;
+  box-shadow: 0 6px 17px rgba(217, 111, 155, 0.13);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
-button:hover { filter: brightness(1.06); }
-button:focus-visible { outline: 3px solid #e99abd; outline-offset: 3px; }
-#dailyMessage, #smileMessage { font-size: 1.12rem; min-height: 52px; }
+
+.pretty-button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 9px 23px rgba(217, 111, 155, 0.24);
+}
+
+.message-box {
+  min-height: 65px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  line-height: 1.85;
+  color: #a65c7d;
+  padding: 17px 5px 0;
+  font-size: 16px;
+}
+
 .reasons {
   display: grid;
-  grid-template-columns: repeat(2,minmax(0,1fr));
-  gap: 10px;
-  margin-top: 16px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 13px;
+  margin-top: 22px;
 }
+
 .reason {
-  min-height: 95px;
-  background: #fff2f7;
-  border: 1px solid #f8d2e1;
-  border-radius: 16px;
-  padding: 15px 10px;
-  color: var(--text);
-  line-height: 1.5;
+  background: linear-gradient(145deg, #fff4f8, #fffafd);
+  border: 1px solid #f4d9e5;
+  border-radius: 17px;
+  padding: 20px 15px;
+  text-align: center;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
-.reason span { display: block; font-size: 1.5rem; margin-bottom: 5px; }
-.timer {
+
+.reason:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(217, 111, 155, 0.11);
+}
+
+.reason-icon { font-size: 25px; margin-bottom: 10px; }
+
+.reason h3 {
+  color: #c16c91;
+  font-size: 17px;
+  font-weight: normal;
+  margin-bottom: 8px;
+}
+
+.reason p {
+  font-size: 14px;
+  color: var(--muted);
+  line-height: 1.75;
+}
+
+.countdown-grid {
   display: grid;
-  grid-template-columns: repeat(4,minmax(0,1fr));
-  gap: 8px;
-  margin: 22px 0;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+  margin: 25px 0 10px;
 }
+
 .time-unit {
-  background: #fff0f6;
-  border: 1px solid #f8cddd;
-  border-radius: 15px;
-  padding: 14px 5px;
+  background: linear-gradient(150deg, #fff0f6, #fffafd);
+  border: 1px solid #f2d5e2;
+  border-radius: 17px;
+  padding: 18px 5px 14px;
 }
+
 .time-number {
   display: block;
-  font-size: clamp(1.5rem,5vw,2.2rem);
-  font-weight: bold;
-  color: var(--dark-pink);
+  color: #c66e95;
+  font-size: clamp(25px, 5vw, 37px);
+  line-height: 1.2;
   font-variant-numeric: tabular-nums;
 }
-.time-label { font-size: .8rem; }
-#birthdayLetter { display: none; text-align: left; }
-#birthdayLetter.open { display: block; }
-#letterText { white-space: pre-line; }
-footer { padding: 25px 15px 38px; }
-@media(max-width:420px) {
-  .reasons { grid-template-columns: 1fr; }
-  .card { padding: 20px 15px; }
-  .time-unit { padding: 12px 2px; }
-  .time-label { font-size: .7rem; }
+
+.time-label {
+  display: block;
+  color: #a78092;
+  font: 10px Arial, sans-serif;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  margin-top: 8px;
 }
-@media(prefers-reduced-motion:reduce) {
-  *,*::before,*::after {
-    animation-duration:.01ms !important;
-    animation-iteration-count:1 !important;
+
+.countdown-date {
+  color: var(--muted);
+  text-align: center;
+  font-size: 13px;
+  line-height: 1.8;
+  margin-top: 18px;
+}
+
+.birthday-lock { text-align: center; padding: 10px 0; }
+.lock-flower { font-size: 34px; margin-bottom: 12px; }
+
+.letter {
+  background: #fff9fc;
+  border: 1px solid #f0ccdc;
+  border-radius: 20px;
+  padding: 25px 21px;
+  margin-top: 22px;
+  text-align: left;
+  line-height: 2;
+  box-shadow: inset 0 0 25px rgba(246, 211, 226, 0.25);
+}
+
+.letter h3 {
+  text-align: center;
+  color: #c66e95;
+  font-size: 24px;
+  font-weight: normal;
+  margin-bottom: 17px;
+}
+
+.letter p { margin-bottom: 14px; color: #795b6a; }
+
+.signature {
+  text-align: center;
+  color: #c66e95;
+  font-size: 20px;
+  font-style: italic;
+  margin-top: 22px;
+}
+
+.hidden { display: none !important; }
+
+.footer {
+  text-align: center;
+  padding: 30px 10px 15px;
+  color: #bd91a5;
+  font-size: 13px;
+  line-height: 2;
+}
+
+.footer strong {
+  display: block;
+  font-size: 17px;
+  font-weight: normal;
+  color: #c66e95;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 500px) {
+  .page { width: 92%; padding-top: 20px; }
+  .hero { padding: 32px 8px 35px; }
+  .section-card { padding: 24px 17px; border-radius: 21px; }
+  .reasons { grid-template-columns: 1fr; }
+  .countdown-grid { gap: 6px; }
+  .time-unit { padding: 15px 2px 12px; border-radius: 13px; }
+  .time-label { font-size: 9px; letter-spacing: 0.5px; }
+  .hero-subtitle { font-size: 16px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
   }
 }
 </style>
 </head>
+
 <body>
-<div id="heartBackground" aria-hidden="true"></div>
+<div id="heart-background" aria-hidden="true"></div>
 
-<header>
-  <div class="flower" aria-hidden="true">🌷 🌸 🌷</div>
-  <h1>A Little Something For Kaylla</h1>
-  <p class="subtitle">A little corner of the internet made just for you ♡</p>
-</header>
+<main class="page">
+  <div class="top-note">a little corner of happiness ♡</div>
 
-<main>
-  <section class="card">
-    <h2>Today's little message 💌</h2>
-    <p id="dailyMessage" aria-live="polite">Loading a little kindness...</p>
-    <p class="subtitle">A new message for a new day 🌷</p>
+  <header class="hero">
+    <div class="flower">❀</div>
+    <h1>A Little Something<br>For Kaylla ♡</h1>
+    <p class="hero-subtitle">
+      A little space filled with soft thoughts, tiny reminders,
+      and a few things I wanted you to know.
+      No special occasion needed to remind someone
+      that they matter. 🌷
+    </p>
+    <div class="small-divider">✧ · ♡ · ✧</div>
+  </header>
+
+  <section class="section-card">
+    <h2>A little reminder for you 💗</h2>
+    <p class="section-intro">
+      Whenever life feels a little heavy, or you just need
+      a reason to smile, I hope this little corner makes
+      your day feel a bit softer.
+    </p>
+    <div class="button-wrap">
+      <button class="pretty-button" onclick="showSmile()">
+        Tap when you need a smile ♡
+      </button>
+    </div>
+    <div class="message-box" id="smileMessage" aria-live="polite">
+      A little reminder that someone is wishing you a happy day. 🌸
+    </div>
   </section>
 
-  <section class="card">
-    <h2>A little reminder 🌸</h2>
-    <p>You don't have to do anything extraordinary to make a difference.
-    Sometimes, simply being yourself is already something beautiful.</p>
-  </section>
-
-  <section class="card">
-    <h2>Little things that make you special 💗</h2>
-    <p>Tap a flower to reveal a little reminder.</p>
+  <section class="section-card">
+    <h2>A few little reasons 🌷</h2>
+    <p class="section-intro">
+      Some things deserve to be appreciated, even if they seem small.
+    </p>
     <div class="reasons">
-      <button class="reason" data-reason="Your smile can brighten an ordinary day."><span>🌷</span>Tap to discover</button>
-      <button class="reason" data-reason="You deserve kindness, even on the days you doubt yourself."><span>🌸</span>Tap to discover</button>
-      <button class="reason" data-reason="There is something lovely about the way you are simply you."><span>💗</span>Tap to discover</button>
-      <button class="reason" data-reason="Your little moments of happiness are worth celebrating."><span>🦋</span>Tap to discover</button>
-      <button class="reason" data-reason="You deserve to feel appreciated without having to ask."><span>🌼</span>Tap to discover</button>
-      <button class="reason" data-reason="The world is a little brighter with people like you in it."><span>♡</span>Tap to discover</button>
+      <article class="reason">
+        <div class="reason-icon">🌸</div>
+        <h3>Your presence</h3>
+        <p>Some people make an ordinary moment feel a little more special.</p>
+      </article>
+      <article class="reason">
+        <div class="reason-icon">♡</div>
+        <h3>Your smile</h3>
+        <p>A little happiness can be contagious, especially when it's genuine.</p>
+      </article>
+      <article class="reason">
+        <div class="reason-icon">✨</div>
+        <h3>Your own little magic</h3>
+        <p>There's something lovely about being yourself without even trying.</p>
+      </article>
+      <article class="reason">
+        <div class="reason-icon">🦋</div>
+        <h3>The little things</h3>
+        <p>Sometimes the smallest moments end up being the ones we remember.</p>
+      </article>
     </div>
   </section>
 
-  <section class="card">
-    <h2>Tap when you need a smile 🥹</h2>
-    <p id="smileMessage" aria-live="polite">A tiny bit of sunshine is waiting for you.</p>
-    <button id="smileButton">Send me a little smile ✨</button>
-  </section>
-
-  <section class="card">
-    <h2>Counting down to your special day 🎂</h2>
-    <p>Until 13 December 2026</p>
-    <div class="timer" aria-label="Time remaining until Kaylla's birthday">
-      <div class="time-unit"><span class="time-number" id="days">--</span><span class="time-label">Days</span></div>
-      <div class="time-unit"><span class="time-number" id="hours">--</span><span class="time-label">Hours</span></div>
-      <div class="time-unit"><span class="time-number" id="minutes">--</span><span class="time-label">Minutes</span></div>
-      <div class="time-unit"><span class="time-number" id="seconds">--</span><span class="time-label">Seconds</span></div>
+  <section class="section-card">
+    <h2>Little messages, just because 💌</h2>
+    <p class="section-intro">
+      There's no particular reason for these. Just little words you can come back to.
+    </p>
+    <div class="button-wrap">
+      <button class="pretty-button" onclick="nextDailyMessage()">
+        Another little message ✧
+      </button>
     </div>
-    <p>Every second brings us closer to celebrating you. ♡</p>
+    <div class="message-box" id="dailyMessage" aria-live="polite"></div>
   </section>
 
-  <section class="card">
-    <h2>A little birthday surprise 🎁</h2>
-    <p>There's something here for your birthday. Come back on 13 December. 💗</p>
-    <button id="birthdayButton">Check for your surprise 🎀</button>
-    <div id="birthdayLetter" class="card">
-      <h2>Happy Birthday, Kaylla! 🎂🌷</h2>
-      <p id="letterText">Today is your day, and I hope it brings you so much happiness, laughter and love.
+  <section class="section-card">
+    <h2>Until your special day 🎂</h2>
+    <p class="section-intro">
+      Someone's birthday is getting closer, and there's a little something
+      waiting for you. For now, let the anticipation do its thing. 💗
+    </p>
+    <div class="countdown-grid" aria-label="Birthday countdown">
+      <div class="time-unit"><span class="time-number" id="days">00</span><span class="time-label">Days</span></div>
+      <div class="time-unit"><span class="time-number" id="hours">00</span><span class="time-label">Hours</span></div>
+      <div class="time-unit"><span class="time-number" id="minutes">00</span><span class="time-label">Minutes</span></div>
+      <div class="time-unit"><span class="time-number" id="seconds">00</span><span class="time-label">Seconds</span></div>
+    </div>
+    <p class="countdown-date" id="countdownCaption">Counting down to 13 December 2026 ♡</p>
+  </section>
 
-I hope this new chapter reminds you how special you are and gives you countless reasons to smile. Never forget that you deserve beautiful things, peaceful days and people who appreciate you for who you are.
+  <section class="section-card">
+    <h2>A little birthday surprise 🎀</h2>
+    <div class="birthday-lock" id="birthdayLocked">
+      <div class="lock-flower">🌷</div>
+      <p class="section-intro">
+        There's a little letter waiting here for you.
+        This one is saved for your special day.
+      </p>
+      <p style="color:#c16c91;line-height:1.9;">
+        Come back on 13 December 2026 ♡
+      </p>
+    </div>
 
-Thank you for being you. I hope your birthday is as lovely as the happiness you bring to the people around you.
-
-Happy birthday, Kaylla. Keep being your beautiful self. ♡
-
-Made with love by Vannie ♡</p>
+    <div class="hidden" id="birthdayUnlocked">
+      <div class="button-wrap">
+        <button class="pretty-button" onclick="openBirthdayLetter()">
+          Open your birthday letter 💌
+        </button>
+      </div>
+      <div class="letter hidden" id="birthdayLetter">
+        <h3>Happy Birthday, Kaylla ♡</h3>
+        <p>Happy birthday, Kaylla! 🌷</p>
+        <p>
+          Today is your day, and I hope it brings you so many reasons to smile.
+          I hope you feel loved, appreciated, and surrounded by little moments
+          that make your heart happy.
+        </p>
+        <p>
+          I hope this new chapter brings you beautiful memories,
+          unexpected happiness, and reasons to be proud of the person you're becoming.
+        </p>
+        <p>
+          Never forget that you deserve kindness, happiness,
+          and all the good things life has waiting for you.
+        </p>
+        <p>
+          Thank you for being someone worth celebrating.
+          I hope your birthday is as lovely as the smile you bring into other people's days. 💗
+        </p>
+        <p>
+          Enjoy your special day, take lots of pictures, make beautiful memories,
+          and remember to smile.
+        </p>
+        <div class="signature">Made with love by Vannie ♡</div>
+      </div>
     </div>
   </section>
+
+  <div class="small-divider">✧ · ♡ · ✧</div>
+  <footer class="footer">
+    A little reminder, whenever you need one.
+    <strong>Made with love by Vannie ♡</strong>
+  </footer>
 </main>
 
-<footer>
-  <div class="flower" aria-hidden="true">🌸 ♡ 🌷</div>
-  Made with love by Vannie ♡
-</footer>
-
 <script>
-const messages = [
-  "I hope something makes you smile today, even if it's something small. 🌷",
-  "You deserve the same kindness you so freely give to others. 💗",
-  "Just a little reminder that you matter, exactly as you are. ♡",
-  "I hope today is gentle with you and gives you reasons to smile. 🌸",
-  "You don't have to be perfect to be wonderful. Never forget that. 🦋",
-  "May a little happiness find you when you least expect it. ✨",
-  "Some people make ordinary days feel a little more special. 🌷",
-  "Take a breath, relax your shoulders, and give yourself some kindness. 💕",
-  "I hope you feel appreciated today, because you deserve to. 🌼",
-  "Even the smallest moments can hold the sweetest memories. ♡",
-  "May your worries feel lighter and your smile come a little easier today. 🌸",
-  "You are allowed to rest, grow, laugh, and take life one day at a time. 💗",
-  "A little reminder: you are enough, just as you are. 🌷",
-  "I hope something unexpectedly lovely happens to you today. 🦋",
-  "The world needs more gentleness. Keep a little of it for yourself, too. ♡",
-  "May your day have more laughter than worries. 🌼",
-  "You deserve moments that make you stop and think, 'I'm happy right now.' ✨",
-  "I hope you find beauty in the little things today. 🌸",
-  "No matter how today goes, you can always begin again tomorrow. 💗",
-  "Here's your reminder to smile at yourself the way you smile at others. 🌷",
-  "You deserve good things without having to earn every little bit of them. ♡",
-  "May your heart feel peaceful and your day feel a little brighter. 🦋",
-  "A small message for a lovely person: I hope you're doing okay today. 💕",
-  "If today feels difficult, take it slowly. One little step is still progress. 🌸"
+// Floating hearts
+const heartBackground = document.getElementById("heart-background");
+
+for (let i = 0; i < 22; i++) {
+  const heart = document.createElement("span");
+  heart.className = "floating-heart";
+  heart.textContent = ["♡", "♥", "✧", "❀"][i % 4];
+  heart.style.left = Math.random() * 100 + "%";
+  heart.style.fontSize = (12 + Math.random() * 19) + "px";
+  heart.style.animationDuration = (13 + Math.random() * 13) + "s";
+  heart.style.animationDelay = (Math.random() * 18) + "s";
+  heartBackground.appendChild(heart);
+}
+
+// Smile button
+const smileMessages = [
+  "In case nobody has reminded you today, you deserve good things. ♡",
+  "Take a breath. You don't have to figure everything out today. 🌷",
+  "I hope something makes you laugh so hard your cheeks hurt. 💗",
+  "You deserve the same kindness you give to other people. ✨",
+  "A bad day doesn't mean a bad life. Better moments are still ahead. 🦋",
+  "Remember to celebrate the little things. They matter too. 🌸",
+  "Somewhere in the middle of an ordinary day, something lovely can happen. ♡",
+  "I hope you find a reason to smile today, even if it's a tiny one. 💌"
 ];
 
-const startDate = new Date(2026, 9, 16);
-const today = new Date();
-today.setHours(0, 0, 0, 0);
-const dayIndex = Math.max(0, Math.floor((today - startDate) / 86400000));
-document.getElementById("dailyMessage").textContent =
-  messages[dayIndex % messages.length];
+let lastSmile = -1;
+
+function showSmile() {
+  let index;
+  do {
+    index = Math.floor(Math.random() * smileMessages.length);
+  } while (index === lastSmile);
+
+  lastSmile = index;
+  document.getElementById("smileMessage").textContent = smileMessages[index];
+}
+
+// Daily messages
+const dailyMessages = [
+  "I hope something unexpectedly lovely happens to you today. ♡",
+  "You deserve moments that make you forget to worry for a while. 🌷",
+  "Never underestimate the beauty of simply being yourself. ✨",
+  "I hope today's little moments give you reasons to smile. 💗",
+  "You are allowed to take things one step at a time. 🦋",
+  "May today be a little gentler on your heart. 🌸",
+  "You deserve friendships that feel safe, honest, and happy. ♡",
+  "I hope you laugh about something silly today. 💌",
+  "Even small progress is still progress. Be proud of yourself.",
+  "You don't have to be perfect to be appreciated. 🌷",
+  "May you find happiness in an ordinary moment today. ✨",
+  "Your happiness matters, even on the days you forget that. 💗",
+  "Keep a little room in your day for something that makes you happy.",
+  "You deserve to hear kind words and believe them too. ♡",
+  "I hope someone makes you feel appreciated today. 🌸",
+  "There are still so many lovely memories waiting to be made.",
+  "Be gentle with yourself. You're doing the best you can. 🦋",
+  "May your day have more smiles than worries. 💗",
+  "You never know how much a little kindness can mean. 🌷",
+  "I hope you find something beautiful in today. ✨",
+  "You deserve a moment to rest without feeling guilty. ♡",
+  "May the things that make you happy find you often.",
+  "A little reminder to drink water, breathe, and look after yourself. 💌",
+  "No matter how today goes, you can begin again tomorrow. 🌸"
+];
+
+const specialMessageDate = "2026-10-17";
+const specialMessage =
+  "Keep a smile on your face, Kaylla, because you have a way of brightening someone else's day without even realising it. Never underestimate how much happiness your smile can bring. ♡🌷";
+
+function isSpecialMessageDay() {
+  const now = new Date();
+  const localDate = [
+    now.getFullYear(),
+    String(now.getMonth() + 1).padStart(2, "0"),
+    String(now.getDate()).padStart(2, "0")
+  ].join("-");
+
+  return localDate === specialMessageDate;
+}
+
+function setAutomaticDailyMessage() {
+  const box = document.getElementById("dailyMessage");
+
+  if (isSpecialMessageDay()) {
+    box.textContent = specialMessage;
+    return;
+  }
+
+  const dayNumber = Math.floor(
+    (new Date().getTime() - new Date(2026, 0, 1).getTime()) / 86400000
+  );
+
+  const index =
+    ((dayNumber % dailyMessages.length) + dailyMessages.length) %
+    dailyMessages.length;
+
+  box.textContent = dailyMessages[index];
+}
+
+function nextDailyMessage() {
+  const box = document.getElementById("dailyMessage");
+
+  // Keep tomorrow's special message visible all day.
+  if (isSpecialMessageDay()) {
+    box.textContent = specialMessage;
+    return;
+  }
+
+  const index = Math.floor(Math.random() * dailyMessages.length);
+  box.textContent = dailyMessages[index];
+}
+
+// Birthday countdown to midnight at the beginning of 13 December 2026.
+const birthdayStart = new Date(2026, 11, 13, 0, 0, 0);
+const birthdayEnd = new Date(2026, 11, 14, 0, 0, 0);
 
 function updateCountdown() {
-  // Uses the visitor's local time; birthday begins at midnight on 13 Dec 2026.
-  const birthday = new Date(2026, 11, 13, 0, 0, 0);
-  const remaining = Math.max(0, birthday.getTime() - Date.now());
+  const now = new Date();
+  const difference = birthdayStart.getTime() - now.getTime();
+  const locked = document.getElementById("birthdayLocked");
+  const unlocked = document.getElementById("birthdayUnlocked");
+  const caption = document.getElementById("countdownCaption");
 
-  const d = Math.floor(remaining / 86400000);
-  const h = Math.floor((remaining % 86400000) / 3600000);
-  const m = Math.floor((remaining % 3600000) / 60000);
-  const s = Math.floor((remaining % 60000) / 1000);
+  if (now >= birthdayStart && now < birthdayEnd) {
+    ["days", "hours", "minutes", "seconds"].forEach(id => {
+      document.getElementById(id).textContent = "00";
+    });
 
-  document.getElementById("days").textContent = String(d).padStart(2, "0");
-  document.getElementById("hours").textContent = String(h).padStart(2, "0");
-  document.getElementById("minutes").textContent = String(m).padStart(2, "0");
-  document.getElementById("seconds").textContent = String(s).padStart(2, "0");
+    caption.textContent = "It's your special day, Kaylla! Happy birthday ♡";
+    locked.classList.add("hidden");
+    unlocked.classList.remove("hidden");
+    return;
+  }
 
-  document.getElementById("birthdayButton").textContent =
-    remaining === 0 ? "Open your birthday surprise 🎀" : "Check for your surprise 🎀";
+  if (now >= birthdayEnd) {
+    ["days", "hours", "minutes", "seconds"].forEach(id => {
+      document.getElementById(id).textContent = "00";
+    });
+
+    caption.textContent = "Your special day was 13 December 2026 ♡";
+    locked.classList.add("hidden");
+    unlocked.classList.remove("hidden");
+    return;
+  }
+
+  const totalSeconds = Math.max(0, Math.floor(difference / 1000));
+  const days = Math.floor(totalSeconds / 86400);
+  const hours = Math.floor((totalSeconds % 86400) / 3600);
+  const minutes = Math.floor((totalSeconds % 3600) / 60);
+  const seconds = totalSeconds % 60;
+
+  document.getElementById("days").textContent = String(days).padStart(2, "0");
+  document.getElementById("hours").textContent = String(hours).padStart(2, "0");
+  document.getElementById("minutes").textContent = String(minutes).padStart(2, "0");
+  document.getElementById("seconds").textContent = String(seconds).padStart(2, "0");
+
+  caption.textContent = "Counting down to 13 December 2026 ♡";
+  locked.classList.remove("hidden");
+  unlocked.classList.add("hidden");
 }
+
+function openBirthdayLetter() {
+  document.getElementById("birthdayLetter").classList.remove("hidden");
+}
+
+setAutomaticDailyMessage();
 updateCountdown();
+
 setInterval(updateCountdown, 1000);
 
-document.querySelectorAll(".reason").forEach(button => {
-  button.addEventListener("click", () => {
-    const reason = button.dataset.reason;
-    button.innerHTML = "<span>💗</span>" + reason;
-    button.setAttribute("aria-label", reason);
-    button.disabled = true;
-  });
-});
-
-const smileMessages = [
-  "Somewhere, someone hopes your day is going well. 🌷",
-  "Take a little breath. You are doing better than you think. 💗",
-  "Imagine a tiny flower cheering you on right now. 🌸",
-  "Your smile deserves to make an appearance today. No pressure, though. ♡",
-  "Here's a virtual hug, whenever you need one. 🫂",
-  "May something sweet find its way into your day. 🦋",
-  "One hard moment doesn't define your whole day. Be gentle with yourself. 💕",
-  "You made it to this moment. That counts for something. 🌼"
-];
-let lastSmile = -1;
-document.getElementById("smileButton").addEventListener("click", () => {
-  let next = Math.floor(Math.random() * smileMessages.length);
-  while (smileMessages.length > 1 && next === lastSmile) {
-    next = Math.floor(Math.random() * smileMessages.length);
-  }
-  lastSmile = next;
-  document.getElementById("smileMessage").textContent = smileMessages[next];
-});
-
-document.getElementById("birthdayButton").addEventListener("click", () => {
-  const birthday = new Date(2026, 11, 13, 0, 0, 0);
-  if (new Date() >= birthday) {
-    document.getElementById("birthdayLetter").classList.add("open");
-    document.getElementById("birthdayLetter").scrollIntoView({
-      behavior: "smooth", block: "center"
-    });
-  } else {
-    const remaining = Math.ceil((birthday - new Date()) / 86400000);
-    alert("Your birthday surprise is waiting for 13 December! 🎀 Only " +
-      remaining + " days to go. 🌷");
-  }
-});
-
-// Floating hearts in the background.
-if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-  const heartBackground = document.getElementById("heartBackground");
-  const heartSymbols = ["♡", "♥", "💕", "🤍"];
-  for (let i = 0; i < 18; i++) {
-    const heart = document.createElement("span");
-    heart.className = "heart";
-    heart.textContent = heartSymbols[i % heartSymbols.length];
-    heart.style.left = (Math.random() * 100) + "%";
-    heart.style.fontSize = (14 + Math.random() * 24) + "px";
-    heart.style.animationDuration = (12 + Math.random() * 16) + "s";
-    heart.style.animationDelay = (-Math.random() * 25) + "s";
-    heartBackground.appendChild(heart);
-  }
-}
+// Refresh the displayed daily message if the page remains open overnight.
+setInterval(setAutomaticDailyMessage, 30000);
 </script>
 </body>
 </html>
