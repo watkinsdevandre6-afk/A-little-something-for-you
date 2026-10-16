@@ -6,46 +6,73 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#fff0f6">
 <title>A Little Something For Kaylla 🌷</title>
-
 <style>
 :root {
   --pink: #f7b8d0;
   --dark-pink: #bd527f;
-  --light: #fff5f9;
   --text: #70475a;
-  --white: #ffffff;
 }
 * { box-sizing: border-box; }
 body {
   margin: 0;
   font-family: Georgia, "Times New Roman", serif;
   color: var(--text);
-  background: linear-gradient(150deg, #fff5f9, #ffe5ef, #fff8fb);
+  background: linear-gradient(150deg,#fff5f9,#ffe5ef,#fff8fb);
   text-align: center;
   overflow-x: hidden;
+  min-height: 100vh;
 }
-header { padding: 48px 18px 25px; }
+#heartBackground {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+.heart {
+  position: absolute;
+  bottom: -50px;
+  color: #e88bb1;
+  opacity: 0;
+  animation: floatHeart linear infinite;
+  text-shadow: 0 2px 8px #f7b8d055;
+}
+@keyframes floatHeart {
+  0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+  10% { opacity: .45; }
+  85% { opacity: .35; }
+  100% { transform: translateY(-115vh) rotate(25deg); opacity: 0; }
+}
+header, main, footer {
+  position: relative;
+  z-index: 1;
+}
+header { padding: 42px 18px 25px; }
 h1 {
   color: var(--dark-pink);
-  font-size: clamp(2rem, 7vw, 3.2rem);
+  font-size: clamp(2rem,7vw,3.2rem);
   margin: 8px 0;
 }
 h2 { color: var(--dark-pink); }
 p { line-height: 1.8; }
 .subtitle { font-style: italic; }
-.flower { font-size: 2rem; animation: float 3s ease-in-out infinite; }
-@keyframes float {
-  0%,100% { transform: translateY(0) rotate(-5deg); }
-  50% { transform: translateY(-9px) rotate(5deg); }
+.flower {
+  font-size: 2rem;
+  animation: floatFlower 3s ease-in-out infinite;
 }
-main { width: min(680px, 92%); margin: auto; }
+@keyframes floatFlower {
+  0%,100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+main { width: min(680px,92%); margin: auto; }
 .card {
-  background: rgba(255,255,255,.82);
+  background: rgba(255,255,255,.88);
   border: 1px solid #f9d1e0;
   border-radius: 22px;
   padding: 24px 20px;
   margin: 20px 0;
-  box-shadow: 0 8px 25px rgba(189,82,127,.08);
+  box-shadow: 0 8px 25px rgba(189,82,127,.09);
+  backdrop-filter: blur(3px);
 }
 button {
   background: var(--dark-pink);
@@ -60,14 +87,10 @@ button {
 }
 button:hover { filter: brightness(1.06); }
 button:focus-visible { outline: 3px solid #e99abd; outline-offset: 3px; }
-.soft-button { background: #fbe0eb; color: #914064; }
-#dailyMessage, #smileMessage {
-  font-size: 1.12rem;
-  min-height: 52px;
-}
+#dailyMessage, #smileMessage { font-size: 1.12rem; min-height: 52px; }
 .reasons {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(2,minmax(0,1fr));
   gap: 10px;
   margin-top: 16px;
 }
@@ -81,36 +104,47 @@ button:focus-visible { outline: 3px solid #e99abd; outline-offset: 3px; }
   line-height: 1.5;
 }
 .reason span { display: block; font-size: 1.5rem; margin-bottom: 5px; }
+.timer {
+  display: grid;
+  grid-template-columns: repeat(4,minmax(0,1fr));
+  gap: 8px;
+  margin: 22px 0;
+}
+.time-unit {
+  background: #fff0f6;
+  border: 1px solid #f8cddd;
+  border-radius: 15px;
+  padding: 14px 5px;
+}
+.time-number {
+  display: block;
+  font-size: clamp(1.5rem,5vw,2.2rem);
+  font-weight: bold;
+  color: var(--dark-pink);
+  font-variant-numeric: tabular-nums;
+}
+.time-label { font-size: .8rem; }
 #birthdayLetter { display: none; text-align: left; }
 #birthdayLetter.open { display: block; }
 #letterText { white-space: pre-line; }
-.music-note { font-size: .9rem; }
-footer { padding: 25px 15px 38px; font-size: .95rem; }
-.petal {
-  position: fixed;
-  top: -30px;
-  z-index: -1;
-  pointer-events: none;
-  animation: fall linear forwards;
-}
-@keyframes fall {
-  to { transform: translateY(110vh) rotate(360deg); opacity: .15; }
-}
-@media (max-width: 420px) {
+footer { padding: 25px 15px 38px; }
+@media(max-width:420px) {
   .reasons { grid-template-columns: 1fr; }
   .card { padding: 20px 15px; }
+  .time-unit { padding: 12px 2px; }
+  .time-label { font-size: .7rem; }
 }
-@media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
-    animation-duration: .01ms !important;
-    animation-iteration-count: 1 !important;
-    scroll-behavior: auto !important;
+@media(prefers-reduced-motion:reduce) {
+  *,*::before,*::after {
+    animation-duration:.01ms !important;
+    animation-iteration-count:1 !important;
   }
 }
 </style>
 </head>
-
 <body>
+<div id="heartBackground" aria-hidden="true"></div>
+
 <header>
   <div class="flower" aria-hidden="true">🌷 🌸 🌷</div>
   <h1>A Little Something For Kaylla</h1>
@@ -126,34 +160,20 @@ footer { padding: 25px 15px 38px; font-size: .95rem; }
 
   <section class="card">
     <h2>A little reminder 🌸</h2>
-    <p>
-      You don't have to do anything extraordinary to make a difference.
-      Sometimes, simply being yourself is already something beautiful.
-    </p>
+    <p>You don't have to do anything extraordinary to make a difference.
+    Sometimes, simply being yourself is already something beautiful.</p>
   </section>
 
   <section class="card">
     <h2>Little things that make you special 💗</h2>
     <p>Tap a flower to reveal a little reminder.</p>
     <div class="reasons">
-      <button class="reason" data-reason="Your smile can brighten an ordinary day.">
-        <span>🌷</span>Tap to discover
-      </button>
-      <button class="reason" data-reason="You deserve kindness, even on the days you doubt yourself.">
-        <span>🌸</span>Tap to discover
-      </button>
-      <button class="reason" data-reason="There is something lovely about the way you are simply you.">
-        <span>💗</span>Tap to discover
-      </button>
-      <button class="reason" data-reason="Your little moments of happiness are worth celebrating.">
-        <span>🦋</span>Tap to discover
-      </button>
-      <button class="reason" data-reason="You deserve to feel appreciated without having to ask.">
-        <span>🌼</span>Tap to discover
-      </button>
-      <button class="reason" data-reason="The world is a little brighter with people like you in it.">
-        <span>♡</span>Tap to discover
-      </button>
+      <button class="reason" data-reason="Your smile can brighten an ordinary day."><span>🌷</span>Tap to discover</button>
+      <button class="reason" data-reason="You deserve kindness, even on the days you doubt yourself."><span>🌸</span>Tap to discover</button>
+      <button class="reason" data-reason="There is something lovely about the way you are simply you."><span>💗</span>Tap to discover</button>
+      <button class="reason" data-reason="Your little moments of happiness are worth celebrating."><span>🦋</span>Tap to discover</button>
+      <button class="reason" data-reason="You deserve to feel appreciated without having to ask."><span>🌼</span>Tap to discover</button>
+      <button class="reason" data-reason="The world is a little brighter with people like you in it."><span>♡</span>Tap to discover</button>
     </div>
   </section>
 
@@ -166,8 +186,13 @@ footer { padding: 25px 15px 38px; font-size: .95rem; }
   <section class="card">
     <h2>Counting down to your special day 🎂</h2>
     <p>Until 13 December 2026</p>
-    <h2 id="countdown" aria-live="polite">Loading...</h2>
-    <p>Every birthday is a reason to celebrate you. ♡</p>
+    <div class="timer" aria-label="Time remaining until Kaylla's birthday">
+      <div class="time-unit"><span class="time-number" id="days">--</span><span class="time-label">Days</span></div>
+      <div class="time-unit"><span class="time-number" id="hours">--</span><span class="time-label">Hours</span></div>
+      <div class="time-unit"><span class="time-number" id="minutes">--</span><span class="time-label">Minutes</span></div>
+      <div class="time-unit"><span class="time-number" id="seconds">--</span><span class="time-label">Seconds</span></div>
+    </div>
+    <p>Every second brings us closer to celebrating you. ♡</p>
   </section>
 
   <section class="card">
@@ -186,18 +211,6 @@ Happy birthday, Kaylla. Keep being your beautiful self. ♡
 
 Made with love by Vannie ♡</p>
     </div>
-  </section>
-
-  <section class="card">
-    <h2>A little peaceful moment 🎵</h2>
-    <p class="music-note">If you'd like, you can play some gentle music while you explore.</p>
-    <audio id="backgroundMusic" loop preload="none">
-      <!-- Optional: add a music file you have permission to use, named music.mp3,
-           to the same GitHub repository as this index.html file. -->
-      <source src="music.mp3" type="audio/mpeg">
-    </audio>
-    <button id="musicButton" class="soft-button">♫ Turn music on</button>
-    <p class="music-note" id="musicStatus" aria-live="polite">Music is off.</p>
   </section>
 </main>
 
@@ -234,7 +247,6 @@ const messages = [
   "If today feels difficult, take it slowly. One little step is still progress. 🌸"
 ];
 
-// Start date: 16 October 2026. The messages cycle after 24 days.
 const startDate = new Date(2026, 9, 16);
 const today = new Date();
 today.setHours(0, 0, 0, 0);
@@ -243,23 +255,32 @@ document.getElementById("dailyMessage").textContent =
   messages[dayIndex % messages.length];
 
 function updateCountdown() {
+  // Uses the visitor's local time; birthday begins at midnight on 13 Dec 2026.
   const birthday = new Date(2026, 11, 13, 0, 0, 0);
-  const now = new Date();
-  const days = Math.max(0, Math.ceil((birthday - now) / 86400000));
-  const countdown = document.getElementById("countdown");
-  countdown.textContent = days === 0
-    ? "It's your special day! 🎂💗"
-    : days + (days === 1 ? " day to go 🌷" : " days to go 🌷");
+  const remaining = Math.max(0, birthday.getTime() - Date.now());
+
+  const d = Math.floor(remaining / 86400000);
+  const h = Math.floor((remaining % 86400000) / 3600000);
+  const m = Math.floor((remaining % 3600000) / 60000);
+  const s = Math.floor((remaining % 60000) / 1000);
+
+  document.getElementById("days").textContent = String(d).padStart(2, "0");
+  document.getElementById("hours").textContent = String(h).padStart(2, "0");
+  document.getElementById("minutes").textContent = String(m).padStart(2, "0");
+  document.getElementById("seconds").textContent = String(s).padStart(2, "0");
+
   document.getElementById("birthdayButton").textContent =
-    now >= birthday ? "Open your birthday surprise 🎀" : "Check for your surprise 🎀";
+    remaining === 0 ? "Open your birthday surprise 🎀" : "Check for your surprise 🎀";
 }
 updateCountdown();
+setInterval(updateCountdown, 1000);
 
 document.querySelectorAll(".reason").forEach(button => {
   button.addEventListener("click", () => {
     const reason = button.dataset.reason;
     button.innerHTML = "<span>💗</span>" + reason;
     button.setAttribute("aria-label", reason);
+    button.disabled = true;
   });
 });
 
@@ -276,8 +297,8 @@ const smileMessages = [
 let lastSmile = -1;
 document.getElementById("smileButton").addEventListener("click", () => {
   let next = Math.floor(Math.random() * smileMessages.length);
-  if (smileMessages.length > 1) {
-    while (next === lastSmile) next = Math.floor(Math.random() * smileMessages.length);
+  while (smileMessages.length > 1 && next === lastSmile) {
+    next = Math.floor(Math.random() * smileMessages.length);
   }
   lastSmile = next;
   document.getElementById("smileMessage").textContent = smileMessages[next];
@@ -287,44 +308,30 @@ document.getElementById("birthdayButton").addEventListener("click", () => {
   const birthday = new Date(2026, 11, 13, 0, 0, 0);
   if (new Date() >= birthday) {
     document.getElementById("birthdayLetter").classList.add("open");
-    document.getElementById("birthdayLetter").scrollIntoView({ behavior: "smooth", block: "center" });
+    document.getElementById("birthdayLetter").scrollIntoView({
+      behavior: "smooth", block: "center"
+    });
   } else {
     const remaining = Math.ceil((birthday - new Date()) / 86400000);
-    alert("Your birthday surprise is waiting for 13 December! 🎀 Only " + remaining + " days to go. 🌷");
+    alert("Your birthday surprise is waiting for 13 December! 🎀 Only " +
+      remaining + " days to go. 🌷");
   }
 });
 
-const music = document.getElementById("backgroundMusic");
-const musicButton = document.getElementById("musicButton");
-const musicStatus = document.getElementById("musicStatus");
-musicButton.addEventListener("click", async () => {
-  if (!music.paused) {
-    music.pause();
-    musicButton.textContent = "♫ Turn music on";
-    musicStatus.textContent = "Music is off.";
-    return;
-  }
-  try {
-    await music.play();
-    musicButton.textContent = "♫ Turn music off";
-    musicStatus.textContent = "Music is playing. Enjoy your little moment. 🌷";
-  } catch (error) {
-    musicStatus.textContent = "To play music, add a permitted music.mp3 file to your website repository first.";
-  }
-});
-
-// Gentle falling flower petals. Respects reduced-motion settings.
+// Floating hearts in the background.
 if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-  setInterval(() => {
-    const petal = document.createElement("span");
-    petal.className = "petal";
-    petal.textContent = ["🌸", "🌷", "♡", "🌼"][Math.floor(Math.random() * 4)];
-    petal.style.left = Math.random() * 100 + "vw";
-    petal.style.fontSize = (12 + Math.random() * 13) + "px";
-    petal.style.animationDuration = (7 + Math.random() * 6) + "s";
-    document.body.appendChild(petal);
-    setTimeout(() => petal.remove(), 14000);
-  }, 1500);
+  const heartBackground = document.getElementById("heartBackground");
+  const heartSymbols = ["♡", "♥", "💕", "🤍"];
+  for (let i = 0; i < 18; i++) {
+    const heart = document.createElement("span");
+    heart.className = "heart";
+    heart.textContent = heartSymbols[i % heartSymbols.length];
+    heart.style.left = (Math.random() * 100) + "%";
+    heart.style.fontSize = (14 + Math.random() * 24) + "px";
+    heart.style.animationDuration = (12 + Math.random() * 16) + "s";
+    heart.style.animationDelay = (-Math.random() * 25) + "s";
+    heartBackground.appendChild(heart);
+  }
 }
 </script>
 </body>
