@@ -17,8 +17,8 @@
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
-
 html { scroll-behavior: smooth; }
+button { font: inherit; }
 
 body {
   min-height: 100vh;
@@ -30,8 +30,6 @@ body {
     radial-gradient(ellipse at 90% 40%, #ffe8f1 0%, transparent 38%),
     linear-gradient(150deg, #fff9fc, #fff0f6, #fffafd);
 }
-
-button { font: inherit; }
 
 button:focus-visible {
   outline: 3px solid #c45c8a;
@@ -151,7 +149,6 @@ h2 {
 }
 
 p { line-height: 1.9; }
-
 .button-wrap { text-align: center; margin-top: 23px; }
 
 .pretty-button {
@@ -183,6 +180,7 @@ p { line-height: 1.9; }
   font-size: 16px;
 }
 
+/* Six clickable emoji cards */
 .reasons {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -190,33 +188,125 @@ p { line-height: 1.9; }
   margin-top: 22px;
 }
 
-.reason {
-  background: linear-gradient(145deg, #fff4f8, #fffafd);
+.reason-card {
+  appearance: none;
+  -webkit-appearance: none;
+  display: block;
+  width: 100%;
+  min-height: 178px;
+  border: 0;
+  border-radius: 17px;
+  padding: 0;
+  background: transparent;
+  color: inherit;
+  text-align: center;
+  cursor: pointer;
+  perspective: 900px;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.reason-card:focus-visible {
+  outline: 3px solid #c45c8a;
+  outline-offset: 4px;
+}
+
+.reason-inner {
+  position: relative;
+  display: block;
+  width: 100%;
+  min-height: 178px;
+  height: 100%;
+  transform-style: preserve-3d;
+  -webkit-transform-style: preserve-3d;
+  transition: transform 0.65s cubic-bezier(.2,.75,.25,1);
+}
+
+.reason-card.is-flipped .reason-inner {
+  transform: rotateY(180deg);
+}
+
+.reason-face {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 18px 14px;
   border: 1px solid #f4d9e5;
   border-radius: 17px;
-  padding: 20px 15px;
-  text-align: center;
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  background: linear-gradient(145deg, #fff4f8, #fffafd);
+  box-shadow: 0 5px 15px rgba(217, 111, 155, 0.06);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  overflow-wrap: anywhere;
 }
 
-.reason:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 8px 20px rgba(217, 111, 155, 0.11);
+.reason-card:hover .reason-face {
+  box-shadow: 0 8px 20px rgba(217, 111, 155, 0.14);
 }
 
-.reason-icon { font-size: 25px; margin-bottom: 10px; }
-
-.reason h3 {
-  color: #c16c91;
-  font-size: 17px;
-  font-weight: normal;
-  margin-bottom: 8px;
+.reason-front .reason-icon {
+  font-size: 39px;
+  line-height: 1.2;
+  margin-bottom: 13px;
+  filter: drop-shadow(0 3px 4px rgba(217, 111, 155, 0.12));
 }
 
-.reason p {
+.reason-front small {
+  color: #b7839b;
+  font: 11px Arial, sans-serif;
+  letter-spacing: 1.3px;
+  text-transform: uppercase;
+}
+
+.reason-back {
+  transform: rotateY(180deg);
+  background: linear-gradient(145deg, #ffeaf3, #fffafd);
+}
+
+.reason-back .back-flower {
+  font-size: 21px;
+  margin-bottom: 9px;
+}
+
+.reason-back p {
+  color: #95677d;
   font-size: 14px;
-  color: var(--muted);
   line-height: 1.75;
+}
+
+/* Hearts burst out whenever a card is tapped */
+.heart-burst {
+  position: fixed;
+  z-index: 20;
+  left: 0;
+  top: 0;
+  pointer-events: none;
+  user-select: none;
+  color: #e878a7;
+  font-size: 20px;
+  line-height: 1;
+  text-shadow: 0 2px 8px rgba(217, 111, 155, 0.18);
+  animation: heartBurst 950ms cubic-bezier(.15,.7,.25,1) forwards;
+}
+
+@keyframes heartBurst {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(.25) rotate(0deg);
+  }
+  15% { opacity: 1; }
+  100% {
+    opacity: 0;
+    transform:
+      translate(
+        calc(-50% + var(--burst-x)),
+        calc(-50% + var(--burst-y))
+      )
+      scale(var(--burst-scale))
+      rotate(var(--burst-rotate));
+  }
 }
 
 .countdown-grid {
@@ -316,7 +406,14 @@ p { line-height: 1.9; }
   .page { width: 92%; padding-top: 20px; }
   .hero { padding: 32px 8px 35px; }
   .section-card { padding: 24px 17px; border-radius: 21px; }
-  .reasons { grid-template-columns: 1fr; }
+  .reasons {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 9px;
+  }
+  .reason-card, .reason-inner { min-height: 158px; }
+  .reason-face { padding: 13px 9px; }
+  .reason-front .reason-icon { font-size: 33px; }
+  .reason-back p { font-size: 12px; line-height: 1.6; }
   .countdown-grid { gap: 6px; }
   .time-unit { padding: 15px 2px 12px; border-radius: 13px; }
   .time-label { font-size: 9px; letter-spacing: 0.5px; }
@@ -324,6 +421,8 @@ p { line-height: 1.9; }
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .reason-inner { transition: none !important; }
+  .heart-burst { animation-duration: 0.01ms !important; }
   *, *::before, *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
@@ -374,27 +473,87 @@ p { line-height: 1.9; }
     <p class="section-intro">
       Some things deserve to be appreciated, even if they seem small.
     </p>
-    <div class="reasons">
-      <article class="reason">
-        <div class="reason-icon">🌸</div>
-        <h3>Your presence</h3>
-        <p>Some people make an ordinary moment feel a little more special.</p>
-      </article>
-      <article class="reason">
-        <div class="reason-icon">♡</div>
-        <h3>Your smile</h3>
-        <p>A little happiness can be contagious, especially when it's genuine.</p>
-      </article>
-      <article class="reason">
-        <div class="reason-icon">✨</div>
-        <h3>Your own little magic</h3>
-        <p>There's something lovely about being yourself without even trying.</p>
-      </article>
-      <article class="reason">
-        <div class="reason-icon">🦋</div>
-        <h3>The little things</h3>
-        <p>Sometimes the smallest moments end up being the ones we remember.</p>
-      </article>
+
+    <div class="reasons" aria-label="Six little reasons to smile">
+
+      <button class="reason-card" type="button" aria-pressed="false" onclick="flipReason(this)">
+        <span class="reason-inner">
+          <span class="reason-face reason-front">
+            <span class="reason-icon">🌷</span>
+            <small>tap to open ♡</small>
+          </span>
+          <span class="reason-face reason-back">
+            <span class="back-flower">🌷</span>
+            <p>You make ordinary moments feel a little more special.</p>
+          </span>
+        </span>
+      </button>
+
+      <button class="reason-card" type="button" aria-pressed="false" onclick="flipReason(this)">
+        <span class="reason-inner">
+          <span class="reason-face reason-front">
+            <span class="reason-icon">🦋</span>
+            <small>tap to open ♡</small>
+          </span>
+          <span class="reason-face reason-back">
+            <span class="back-flower">🦋</span>
+            <p>Never forget how beautiful your smile is.</p>
+          </span>
+        </span>
+      </button>
+
+      <button class="reason-card" type="button" aria-pressed="false" onclick="flipReason(this)">
+        <span class="reason-inner">
+          <span class="reason-face reason-front">
+            <span class="reason-icon">💗</span>
+            <small>tap to open ♡</small>
+          </span>
+          <span class="reason-face reason-back">
+            <span class="back-flower">💗</span>
+            <p>You deserve the same happiness you bring to others.</p>
+          </span>
+        </span>
+      </button>
+
+      <button class="reason-card" type="button" aria-pressed="false" onclick="flipReason(this)">
+        <span class="reason-inner">
+          <span class="reason-face reason-front">
+            <span class="reason-icon">✨</span>
+            <small>tap to open ♡</small>
+          </span>
+          <span class="reason-face reason-back">
+            <span class="back-flower">✨</span>
+            <p>You have a way of making someone's day better without even trying.</p>
+          </span>
+        </span>
+      </button>
+
+      <button class="reason-card" type="button" aria-pressed="false" onclick="flipReason(this)">
+        <span class="reason-inner">
+          <span class="reason-face reason-front">
+            <span class="reason-icon">🌸</span>
+            <small>tap to open ♡</small>
+          </span>
+          <span class="reason-face reason-back">
+            <span class="back-flower">🌸</span>
+            <p>There's something about you that makes you unforgettable.</p>
+          </span>
+        </span>
+      </button>
+
+      <button class="reason-card" type="button" aria-pressed="false" onclick="flipReason(this)">
+        <span class="reason-inner">
+          <span class="reason-face reason-front">
+            <span class="reason-icon">🧸</span>
+            <small>tap to open ♡</small>
+          </span>
+          <span class="reason-face reason-back">
+            <span class="back-flower">🧸</span>
+            <p>I hope you always remember that you're appreciated more than you know. ♡</p>
+          </span>
+        </span>
+      </button>
+
     </div>
   </section>
 
@@ -417,17 +576,34 @@ p { line-height: 1.9; }
       Someone's birthday is getting closer, and there's a little something
       waiting for you. For now, let the anticipation do its thing. 💗
     </p>
+
     <div class="countdown-grid" aria-label="Birthday countdown">
-      <div class="time-unit"><span class="time-number" id="days">00</span><span class="time-label">Days</span></div>
-      <div class="time-unit"><span class="time-number" id="hours">00</span><span class="time-label">Hours</span></div>
-      <div class="time-unit"><span class="time-number" id="minutes">00</span><span class="time-label">Minutes</span></div>
-      <div class="time-unit"><span class="time-number" id="seconds">00</span><span class="time-label">Seconds</span></div>
+      <div class="time-unit">
+        <span class="time-number" id="days">00</span>
+        <span class="time-label">Days</span>
+      </div>
+      <div class="time-unit">
+        <span class="time-number" id="hours">00</span>
+        <span class="time-label">Hours</span>
+      </div>
+      <div class="time-unit">
+        <span class="time-number" id="minutes">00</span>
+        <span class="time-label">Minutes</span>
+      </div>
+      <div class="time-unit">
+        <span class="time-number" id="seconds">00</span>
+        <span class="time-label">Seconds</span>
+      </div>
     </div>
-    <p class="countdown-date" id="countdownCaption">Counting down to 13 December 2026 ♡</p>
+
+    <p class="countdown-date" id="countdownCaption">
+      Counting down to 13 December 2026 ♡
+    </p>
   </section>
 
   <section class="section-card">
     <h2>A little birthday surprise 🎀</h2>
+
     <div class="birthday-lock" id="birthdayLocked">
       <div class="lock-flower">🌷</div>
       <p class="section-intro">
@@ -445,36 +621,45 @@ p { line-height: 1.9; }
           Open your birthday letter 💌
         </button>
       </div>
+
       <div class="letter hidden" id="birthdayLetter">
         <h3>Happy Birthday, Kaylla ♡</h3>
+
         <p>Happy birthday, Kaylla! 🌷</p>
+
         <p>
           Today is your day, and I hope it brings you so many reasons to smile.
           I hope you feel loved, appreciated, and surrounded by little moments
           that make your heart happy.
         </p>
+
         <p>
           I hope this new chapter brings you beautiful memories,
           unexpected happiness, and reasons to be proud of the person you're becoming.
         </p>
+
         <p>
           Never forget that you deserve kindness, happiness,
           and all the good things life has waiting for you.
         </p>
+
         <p>
           Thank you for being someone worth celebrating.
           I hope your birthday is as lovely as the smile you bring into other people's days. 💗
         </p>
+
         <p>
           Enjoy your special day, take lots of pictures, make beautiful memories,
           and remember to smile.
         </p>
+
         <div class="signature">Made with love by Vannie ♡</div>
       </div>
     </div>
   </section>
 
   <div class="small-divider">✧ · ♡ · ✧</div>
+
   <footer class="footer">
     A little reminder, whenever you need one.
     <strong>Made with love by Vannie ♡</strong>
@@ -482,7 +667,7 @@ p { line-height: 1.9; }
 </main>
 
 <script>
-// Floating hearts
+// Floating hearts in the background
 const heartBackground = document.getElementById("heart-background");
 
 for (let i = 0; i < 22; i++) {
@@ -496,7 +681,43 @@ for (let i = 0; i < 22; i++) {
   heartBackground.appendChild(heart);
 }
 
-// Smile button
+// Flip a reason card and create a burst of hearts
+function flipReason(card) {
+  const isFlipped = card.classList.toggle("is-flipped");
+  card.setAttribute("aria-pressed", String(isFlipped));
+  burstHearts(card);
+}
+
+// Make hearts burst out from the card Kaylla taps
+function burstHearts(card) {
+  const rect = card.getBoundingClientRect();
+  const centerX = rect.left + rect.width / 2;
+  const centerY = rect.top + rect.height / 2;
+  const symbols = ["♡", "♥", "💕", "💗", "💖", "✧"];
+  const total = 15;
+
+  for (let i = 0; i < total; i++) {
+    const heart = document.createElement("span");
+
+    heart.className = "heart-burst";
+    heart.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+    heart.style.left = centerX + "px";
+    heart.style.top = centerY + "px";
+    heart.style.setProperty("--burst-x", (Math.random() * 220 - 110) + "px");
+    heart.style.setProperty("--burst-y", (Math.random() * -170 - 25) + "px");
+    heart.style.setProperty("--burst-scale", (0.65 + Math.random() * 1.05).toFixed(2));
+    heart.style.setProperty("--burst-rotate", (Math.random() * 100 - 50) + "deg");
+    heart.style.animationDelay = (Math.random() * 100) + "ms";
+
+    document.body.appendChild(heart);
+
+    heart.addEventListener("animationend", () => {
+      heart.remove();
+    }, { once: true });
+  }
+}
+
+// Smile button messages
 const smileMessages = [
   "In case nobody has reminded you today, you deserve good things. ♡",
   "Take a breath. You don't have to figure everything out today. 🌷",
@@ -512,6 +733,7 @@ let lastSmile = -1;
 
 function showSmile() {
   let index;
+
   do {
     index = Math.floor(Math.random() * smileMessages.length);
   } while (index === lastSmile);
@@ -548,12 +770,15 @@ const dailyMessages = [
   "No matter how today goes, you can begin again tomorrow. 🌸"
 ];
 
+// Special message for 17 October 2026
 const specialMessageDate = "2026-10-17";
+
 const specialMessage =
   "Keep a smile on your face, Kaylla, because you have a way of brightening someone else's day without even realising it. Never underestimate how much happiness your smile can bring. ♡🌷";
 
 function isSpecialMessageDay() {
   const now = new Date();
+
   const localDate = [
     now.getFullYear(),
     String(now.getMonth() + 1).padStart(2, "0"),
@@ -585,7 +810,7 @@ function setAutomaticDailyMessage() {
 function nextDailyMessage() {
   const box = document.getElementById("dailyMessage");
 
-  // Keep tomorrow's special message visible all day.
+  // Keep the special message visible throughout 17 October.
   if (isSpecialMessageDay()) {
     box.textContent = specialMessage;
     return;
@@ -595,13 +820,14 @@ function nextDailyMessage() {
   box.textContent = dailyMessages[index];
 }
 
-// Birthday countdown to midnight at the beginning of 13 December 2026.
+// Birthday countdown to 13 December 2026
 const birthdayStart = new Date(2026, 11, 13, 0, 0, 0);
 const birthdayEnd = new Date(2026, 11, 14, 0, 0, 0);
 
 function updateCountdown() {
   const now = new Date();
   const difference = birthdayStart.getTime() - now.getTime();
+
   const locked = document.getElementById("birthdayLocked");
   const unlocked = document.getElementById("birthdayUnlocked");
   const caption = document.getElementById("countdownCaption");
@@ -648,12 +874,13 @@ function openBirthdayLetter() {
   document.getElementById("birthdayLetter").classList.remove("hidden");
 }
 
+// Start the website features
 setAutomaticDailyMessage();
 updateCountdown();
 
 setInterval(updateCountdown, 1000);
 
-// Refresh the displayed daily message if the page remains open overnight.
+// Update the daily message if the page stays open overnight
 setInterval(setAutomaticDailyMessage, 30000);
 </script>
 </body>
