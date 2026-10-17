@@ -1,4 +1,5 @@
 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -424,6 +425,29 @@ p { line-height: 1.9; }
     transition-duration: 0.01ms !important;
   }
 }
+
+
+/* Added: message forms and Vannie's private inbox */
+.message-form { display: grid; gap: 12px; margin-top: 18px; }
+.message-form label { display: block; color: #95677d; font-size: 14px; margin-bottom: 6px; }
+.message-form input, .message-form textarea, .message-form select {
+  width: 100%; border: 1px solid #efcddd; border-radius: 13px; padding: 12px 13px;
+  background: #fffafd; color: var(--text); font: 15px Arial, sans-serif; outline: none;
+}
+.message-form textarea { min-height: 115px; resize: vertical; line-height: 1.6; }
+.message-form input:focus, .message-form textarea:focus, .message-form select:focus {
+  border-color: #d96f9b; box-shadow: 0 0 0 3px rgba(217,111,155,.12);
+}
+.form-status { min-height: 24px; text-align: center; color: #a65c7d; font: 14px/1.6 Arial, sans-serif; overflow-wrap: anywhere; }
+.inbox-panel { margin-top: 22px; padding-top: 20px; border-top: 1px solid #f2d5e2; }
+.inbox-list { display: grid; gap: 12px; margin-top: 18px; }
+.inbox-item { background: #fff6fa; border: 1px solid #f2d5e2; border-radius: 15px; padding: 15px; overflow-wrap: anywhere; }
+.inbox-item small { display: block; color: #a78092; font: 12px/1.6 Arial, sans-serif; margin-bottom: 8px; }
+.inbox-item p { white-space: pre-wrap; color: #795b6a; }
+.inbox-empty { text-align: center; color: var(--muted); padding: 15px 0; }
+.inbox-actions { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 14px; }
+@media (max-width: 500px) { .message-form input, .message-form textarea, .message-form select { font-size: 16px; } }
+
 </style>
 </head>
 
@@ -481,6 +505,66 @@ p { line-height: 1.9; }
       </button>
     </div>
     <div class="message-box" id="dailyMessage" aria-live="polite"></div>
+  </section>
+
+
+
+  <section class="section-card" id="shareWithVannie">
+    <h2>A little message for Vannie 💌</h2>
+    <p class="section-intro">
+      If there's something you want to tell Vannie, or a little moment that made your day,
+      you can leave it here. Messages are saved to a private inbox once the website is connected.
+    </p>
+
+    <form class="message-form" id="privateMessageForm">
+      <div>
+        <label for="privateMessageText">A message just for Vannie</label>
+        <textarea id="privateMessageText" maxlength="2000" required placeholder="Write whatever is on your mind... 💗"></textarea>
+      </div>
+      <button class="pretty-button" type="submit">Send private message ♡</button>
+      <p class="form-status" id="privateMessageStatus" role="status" aria-live="polite"></p>
+    </form>
+
+    <div class="small-divider">✧ · ♡ · ✧</div>
+
+    <h2>What made your day today? 🌷</h2>
+    <p class="section-intro">
+      It can be something big, something funny, or one tiny thing that made you smile.
+      Share your little moment with Vannie.
+    </p>
+    <form class="message-form" id="dailyMomentForm">
+      <div>
+        <label for="dailyMomentText">Your happy moment today</label>
+        <textarea id="dailyMomentText" maxlength="2000" required placeholder="Today, something that made me happy was... ✨"></textarea>
+      </div>
+      <button class="pretty-button" type="submit">Share my moment ♡</button>
+      <p class="form-status" id="dailyMomentStatus" role="status" aria-live="polite"></p>
+    </form>
+
+    <div class="inbox-panel">
+      <h2>Vannie's private inbox 🔐</h2>
+      <p class="section-intro">This area is for Vannie. Sign in with the owner account to read messages and daily moments.</p>
+      <form class="message-form" id="inboxLoginForm">
+        <div>
+          <label for="inboxEmail">Owner email</label>
+          <input id="inboxEmail" type="email" autocomplete="username" required placeholder="Your private inbox email">
+        </div>
+        <div>
+          <label for="inboxPassword">Password</label>
+          <input id="inboxPassword" type="password" autocomplete="current-password" required placeholder="Your password">
+        </div>
+        <button class="pretty-button" type="submit" id="inboxLoginButton">Open private inbox 🔐</button>
+        <p class="form-status" id="inboxLoginStatus" role="status" aria-live="polite"></p>
+      </form>
+      <div id="privateInboxContent" class="hidden">
+        <div class="inbox-actions">
+          <button class="pretty-button" type="button" id="refreshInboxButton">Refresh inbox ↻</button>
+          <button class="pretty-button" type="button" id="inboxLogoutButton">Sign out</button>
+        </div>
+        <p class="form-status" id="inboxStatus" role="status" aria-live="polite"></p>
+        <div class="inbox-list" id="inboxMessages"></div>
+      </div>
+    </div>
   </section>
 
   <section class="section-card">
@@ -953,5 +1037,180 @@ document.addEventListener("visibilitychange", () => {
   }
 });
 </script>
+
+
+<!-- Added private message inbox. Connect this to your own Firebase project before using it. -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
+  import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
+  import { getFirestore, collection, addDoc, serverTimestamp, query, orderBy, onSnapshot, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
+
+  // Replace these placeholder values with the Firebase web-app config for your project.
+  const firebaseConfig = {
+    apiKey: "PASTE_YOUR_FIREBASE_API_KEY",
+    authDomain: "PASTE_YOUR_PROJECT_ID.firebaseapp.com",
+    projectId: "PASTE_YOUR_PROJECT_ID",
+    appId: "PASTE_YOUR_FIREBASE_APP_ID"
+  };
+
+  const configured = firebaseConfig.apiKey !== "PASTE_YOUR_FIREBASE_API_KEY" &&
+    firebaseConfig.projectId !== "PASTE_YOUR_PROJECT_ID" &&
+    firebaseConfig.appId !== "PASTE_YOUR_FIREBASE_APP_ID";
+
+  const byId = (id) => document.getElementById(id);
+  const setStatus = (id, message) => { const el = byId(id); if (el) el.textContent = message; };
+  const privateMessageForm = byId("privateMessageForm");
+  const dailyMomentForm = byId("dailyMomentForm");
+  const inboxLoginForm = byId("inboxLoginForm");
+  let auth = null;
+  let db = null;
+  let stopInboxListener = null;
+
+  function setupNotice() {
+    setStatus("privateMessageStatus", "The private inbox still needs to be connected to Firebase before messages can be delivered.");
+    setStatus("dailyMomentStatus", "The private inbox still needs to be connected to Firebase before moments can be delivered.");
+    setStatus("inboxLoginStatus", "Owner setup required: add your Firebase config and secure Firestore rules first.");
+  }
+
+  async function sendToInbox(text, type, statusId, form) {
+    const message = text.trim();
+    if (!message) { setStatus(statusId, "Please write something first. ♡"); return; }
+    if (!configured || !db) { setStatus(statusId, "Not sent yet — the private inbox has not been connected. Please finish the Firebase setup."); return; }
+    const button = form.querySelector('button[type="submit"]');
+    button.disabled = true;
+    button.style.opacity = "0.7";
+    setStatus(statusId, "Sending your little note… ♡");
+    try {
+      await addDoc(collection(db, "messages"), {
+        sender: "Kaylla",
+        type,
+        message,
+        createdAt: serverTimestamp()
+      });
+      form.reset();
+      setStatus(statusId, type === "daily" ? "Your moment has been shared with Vannie. ♡" : "Your private message has been sent to Vannie. ♡");
+    } catch (error) {
+      console.error("Message delivery failed:", error);
+      setStatus(statusId, "It couldn't be sent. Please check the Firebase setup and internet connection, then try again.");
+    } finally {
+      button.disabled = false;
+      button.style.opacity = "1";
+    }
+  }
+
+  privateMessageForm.addEventListener("submit", (event) => {
+    event.preventDefault();
+    sendToInbox(byId("privateMessageText").value, "message", "privateMessageStatus", privateMessageForm);
+  });
+  dailyMomentForm.addEventListener("submit", (event) => {
+    event.preventDefault();
+    sendToInbox(byId("dailyMomentText").value, "daily", "dailyMomentStatus", dailyMomentForm);
+  });
+
+  function renderInbox(snapshot) {
+    const container = byId("inboxMessages");
+    container.replaceChildren();
+    if (snapshot.empty) {
+      const empty = document.createElement("p");
+      empty.className = "inbox-empty";
+      empty.textContent = "Your inbox is empty for now. The first little note will appear here. ♡";
+      container.appendChild(empty);
+      return;
+    }
+    snapshot.forEach((item) => {
+      const data = item.data();
+      const card = document.createElement("article");
+      card.className = "inbox-item";
+      const meta = document.createElement("small");
+      const kind = data.type === "daily" ? "What made your day today? 🌷" : "Private message 💌";
+      const date = data.createdAt && data.createdAt.toDate ? data.createdAt.toDate().toLocaleString() : "Just received";
+      meta.textContent = `${kind} · From ${data.sender || "Kaylla"} · ${date}`;
+      const body = document.createElement("p");
+      body.textContent = data.message || "(Empty message)";
+      const remove = document.createElement("button");
+      remove.className = "pretty-button";
+      remove.type = "button";
+      remove.textContent = "Delete message";
+      remove.style.marginTop = "12px";
+      remove.addEventListener("click", async () => {
+        if (!confirm("Delete this message from your private inbox?")) return;
+        try {
+          await deleteDoc(doc(db, "messages", item.id));
+          setStatus("inboxStatus", "Message deleted.");
+        } catch (error) {
+          console.error(error);
+          setStatus("inboxStatus", "Couldn't delete that message. Check your Firestore rules.");
+        }
+      });
+      card.append(meta, body, remove);
+      container.appendChild(card);
+    });
+  }
+
+  function startInboxListener() {
+    if (stopInboxListener) stopInboxListener();
+    const inboxQuery = query(collection(db, "messages"), orderBy("createdAt", "desc"));
+    stopInboxListener = onSnapshot(inboxQuery, renderInbox, (error) => {
+      console.error("Inbox loading failed:", error);
+      setStatus("inboxStatus", "Couldn't load messages. Check that your Firestore rules allow only your owner account to read them.");
+    });
+  }
+
+  inboxLoginForm.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    if (!configured || !auth) {
+      setStatus("inboxLoginStatus", "Owner setup required: add your Firebase config and secure Firestore rules first.");
+      return;
+    }
+    const button = byId("inboxLoginButton");
+    button.disabled = true;
+    setStatus("inboxLoginStatus", "Signing in…");
+    try {
+      await signInWithEmailAndPassword(auth, byId("inboxEmail").value.trim(), byId("inboxPassword").value);
+      setStatus("inboxLoginStatus", "");
+    } catch (error) {
+      console.error("Inbox sign-in failed:", error);
+      setStatus("inboxLoginStatus", "Couldn't sign in. Check the email, password, and Firebase Authentication setup.");
+    } finally {
+      button.disabled = false;
+    }
+  });
+
+  byId("refreshInboxButton").addEventListener("click", () => {
+    if (auth && auth.currentUser) startInboxListener();
+  });
+  byId("inboxLogoutButton").addEventListener("click", async () => {
+    if (auth) await signOut(auth);
+  });
+
+  if (configured) {
+    try {
+      const app = initializeApp(firebaseConfig);
+      auth = getAuth(app);
+      db = getFirestore(app);
+      onAuthStateChanged(auth, (user) => {
+        byId("privateInboxContent").classList.toggle("hidden", !user);
+        inboxLoginForm.classList.toggle("hidden", !!user);
+        if (user) {
+          setStatus("inboxStatus", "Signed in. Only the authorised owner account can read these messages.");
+          startInboxListener();
+        } else {
+          if (stopInboxListener) stopInboxListener();
+          stopInboxListener = null;
+          byId("inboxMessages").replaceChildren();
+          setStatus("inboxLoginStatus", "");
+        }
+      });
+      setStatus("privateMessageStatus", "Ready to send a private note to Vannie. ♡");
+      setStatus("dailyMomentStatus", "Ready to share your happy moment with Vannie. ♡");
+    } catch (error) {
+      console.error("Firebase setup error:", error);
+      setupNotice();
+    }
+  } else {
+    setupNotice();
+  }
+</script>
+
 </body>
 </html>
