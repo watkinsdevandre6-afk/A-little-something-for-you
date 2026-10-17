@@ -452,10 +452,55 @@ p { line-height: 1.9; }
 @media (max-width: 500px) {
   .message-form input, .message-form textarea, .message-form select { font-size: 16px; }
 }
+
+/* Welcome song screen and animated photo memories */
+body.waiting-for-song { overflow: hidden; }
+.song-welcome {
+  position: fixed; inset: 0; z-index: 1000; display: flex; align-items: center; justify-content: center;
+  padding: 24px; background: radial-gradient(ellipse at 15% 15%, #ffe0ed 0%, transparent 40%),
+  radial-gradient(ellipse at 85% 80%, #ffe8f1 0%, transparent 42%), linear-gradient(150deg,#fff9fc,#fff0f6,#fffafd);
+  transition: opacity .8s ease, visibility .8s ease;
+}
+.song-welcome.dismissed { opacity: 0; visibility: hidden; pointer-events: none; }
+.song-welcome-inner { width: min(480px,100%); text-align: center; padding: 38px 25px; border: 1px solid #f0ccdc;
+  border-radius: 28px; background: rgba(255,255,255,.78); box-shadow: 0 18px 55px rgba(177,101,136,.13); }
+.song-welcome-flower { color:#d96f9b; font-size:46px; margin-bottom:15px; animation: gentleTurn 16s linear infinite; }
+.song-welcome h2 { font-size:clamp(29px,7vw,42px); margin-bottom:14px; }
+.song-welcome p { color:var(--muted); line-height:1.9; margin: 0 auto 22px; }
+.song-note { display:block; margin-top:15px; font:12px Arial,sans-serif; color:#a78092; letter-spacing:.5px; }
+.song-status { min-height:22px; margin-top:12px; color:#a65c7d; font:13px/1.6 Arial,sans-serif; }
+.photo-gallery { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:17px; margin-top:24px; }
+.memory-photo { opacity:0; transform:translateY(24px); transition:opacity .8s ease, transform .8s ease; }
+.memory-photo.in-view { opacity:1; transform:translateY(0); }
+.memory-photo figure { height:100%; padding:10px 10px 16px; background:#fffafd; border:1px solid #f1d7e3; border-radius:17px; box-shadow:0 8px 22px rgba(177,101,136,.1); }
+.memory-photo img { display:block; width:100%; aspect-ratio:4/5; object-fit:cover; border-radius:10px; background:#fff0f6; }
+.memory-photo figcaption { text-align:center; color:#95677d; line-height:1.65; padding:12px 3px 0; font-size:14px; }
+.memory-photo:nth-child(2) { transition-delay:.12s; }
+.memory-photo:nth-child(3) { transition-delay:.08s; }
+.memory-photo.favourite { grid-column:1/-1; max-width:420px; width:100%; justify-self:center; }
+.memory-photo.favourite figure { padding:12px 12px 19px; }
+.memory-photo.favourite img { aspect-ratio:4/3; }
+.memory-photo.favourite figcaption { color:#c66e95; font-size:17px; font-style:italic; }
+@media(max-width:500px) { .photo-gallery {gap:10px;} .memory-photo figure {padding:7px 7px 12px;} .memory-photo figcaption {font-size:12px;} }
+@media(prefers-reduced-motion:reduce) { .memory-photo {opacity:1;transform:none;transition:none;} .song-welcome {transition:none;} }
+
 </style>
 </head>
 
-<body>
+<body class="waiting-for-song">
+<div class="song-welcome" id="songWelcome" role="dialog" aria-modal="true" aria-labelledby="welcomeTitle">
+  <div class="song-welcome-inner">
+    <div class="song-welcome-flower" aria-hidden="true">❀</div>
+    <h2 id="welcomeTitle">A little something for you, Kaylla ♡</h2>
+    <p>There's a song that reminds me of you…<br>Press play, then explore my little corner for you. 🌷</p>
+    <button class="pretty-button" id="playSongButton" type="button">▶ Play our song ♡</button>
+    <span class="song-note">24 Hours — Kaylow</span>
+    <p class="song-status" id="songStatus" role="status" aria-live="polite"></p>
+  </div>
+</div>
+<audio id="welcomeSong" preload="auto" loop>
+  <source src="24-hours-kaylow.mp3" type="audio/mpeg">
+</audio>
 <div id="heart-background" aria-hidden="true"></div>
 
 <main class="page">
@@ -496,6 +541,17 @@ p { line-height: 1.9; }
       Some things deserve to be appreciated, even if they seem small.
     </p>
     <div class="reasons" id="reasonsContainer" aria-label="Six little reasons to smile"></div>
+  </section>
+
+  <section class="section-card" id="ourMemories">
+    <h2>A few little memories 📸</h2>
+    <p class="section-intro">A few pictures I wanted to keep in this little corner for you. ♡</p>
+    <div class="photo-gallery">
+      <div class="memory-photo"><figure><img src="kaylla-photo-1.jpg" alt="A favourite memory of Kaylla" loading="lazy"><figcaption>A little moment worth keeping ♡</figcaption></figure></div>
+      <div class="memory-photo"><figure><img src="kaylla-photo-2.jpg" alt="Another favourite picture of Kaylla" loading="lazy"><figcaption>A picture that makes me smile 🌷</figcaption></figure></div>
+      <div class="memory-photo"><figure><img src="kaylla-photo-3.jpg" alt="Another special picture of Kaylla" loading="lazy"><figcaption>One more little memory ✨</figcaption></figure></div>
+      <div class="memory-photo favourite"><figure><img src="kaylla-photo-4.jpg" alt="My favourite picture of Kaylla" loading="lazy"><figcaption>my favourite pic of you ♡</figcaption></figure></div>
+    </div>
   </section>
 
   <section class="section-card">
@@ -1088,6 +1144,39 @@ document.addEventListener("visibilitychange", () => {
     }
   } else {
     showSetupNotice();
+  }
+</script>
+<script>
+  // The visitor must press the button to start the music; this is required by browsers.
+  const welcomeSong = document.getElementById("welcomeSong");
+  const songWelcome = document.getElementById("songWelcome");
+  const playSongButton = document.getElementById("playSongButton");
+  const songStatus = document.getElementById("songStatus");
+  playSongButton.addEventListener("click", async () => {
+    try {
+      await welcomeSong.play();
+      document.body.classList.remove("waiting-for-song");
+      songWelcome.classList.add("dismissed");
+      window.setTimeout(() => songWelcome.remove(), 900);
+    } catch (error) {
+      songStatus.textContent = "I couldn't start the song. Check that 24-hours-kaylow.mp3 is uploaded beside index.html, then try again. ♡";
+    }
+  });
+
+  // Reveal each photo as it scrolls into view, matching the soft fade-up effect.
+  const memoryPhotos = document.querySelectorAll(".memory-photo");
+  if ("IntersectionObserver" in window) {
+    const photoObserver = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("in-view");
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15 });
+    memoryPhotos.forEach(photo => photoObserver.observe(photo));
+  } else {
+    memoryPhotos.forEach(photo => photo.classList.add("in-view"));
   }
 </script>
 </body>
