@@ -323,4 +323,772 @@ p { line-height: 1.9; }
   display: block;
   color: #c66e95;
   font-size: clamp(25px, 5vw, 37px);
-  line-height: 1
+  line-height: 1.2;
+  font-variant-numeric: tabular-nums;
+}
+
+.time-label {
+  display: block;
+  color: #a78092;
+  font: 10px Arial, sans-serif;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  margin-top: 8px;
+}
+
+.countdown-date {
+  color: var(--muted);
+  text-align: center;
+  font-size: 13px;
+  line-height: 1.8;
+  margin-top: 18px;
+}
+
+.birthday-lock { text-align: center; padding: 10px 0; }
+.lock-flower { font-size: 34px; margin-bottom: 12px; }
+
+.letter {
+  background: #fff9fc;
+  border: 1px solid #f0ccdc;
+  border-radius: 20px;
+  padding: 25px 21px;
+  margin-top: 22px;
+  text-align: left;
+  line-height: 2;
+  box-shadow: inset 0 0 25px rgba(246, 211, 226, 0.25);
+}
+
+.letter h3 {
+  text-align: center;
+  color: #c66e95;
+  font-size: 24px;
+  font-weight: normal;
+  margin-bottom: 17px;
+}
+
+.letter p { margin-bottom: 14px; color: #795b6a; }
+
+.signature {
+  text-align: center;
+  color: #c66e95;
+  font-size: 20px;
+  font-style: italic;
+  margin-top: 22px;
+}
+
+.hidden { display: none !important; }
+
+.footer {
+  text-align: center;
+  padding: 30px 10px 15px;
+  color: #bd91a5;
+  font-size: 13px;
+  line-height: 2;
+}
+
+.footer strong {
+  display: block;
+  font-size: 17px;
+  font-weight: normal;
+  color: #c66e95;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 500px) {
+  .page { width: 92%; padding-top: 20px; }
+  .hero { padding: 32px 8px 35px; }
+  .section-card { padding: 24px 17px; border-radius: 21px; }
+  .reasons { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 9px; }
+  .reason-card, .reason-inner { min-height: 158px; }
+  .reason-face { padding: 13px 9px; }
+  .reason-front .reason-icon { font-size: 33px; }
+  .reason-back p { font-size: 12px; line-height: 1.6; }
+  .countdown-grid { gap: 6px; }
+  .time-unit { padding: 15px 2px 12px; border-radius: 13px; }
+  .time-label { font-size: 9px; letter-spacing: 0.5px; }
+  .hero-subtitle { font-size: 16px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reason-inner { transition: none !important; }
+  .heart-burst { animation-duration: 0.01ms !important; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Styling for the daily moment sharing form */
+.message-form { display: grid; gap: 12px; margin-top: 18px; }
+.message-form label { display: block; color: #95677d; font-size: 14px; margin-bottom: 6px; }
+.message-form input, .message-form textarea, .message-form select {
+  width: 100%;
+  border: 1px solid #efcddd;
+  border-radius: 13px;
+  padding: 12px 13px;
+  background: #fffafd;
+  color: var(--text);
+  font: 15px Arial, sans-serif;
+  outline: none;
+}
+.message-form textarea { min-height: 115px; resize: vertical; line-height: 1.6; }
+.message-form input:focus, .message-form textarea:focus, .message-form select:focus {
+  border-color: #d96f9b;
+  box-shadow: 0 0 0 3px rgba(217,111,155,.12);
+}
+.form-status {
+  min-height: 24px;
+  text-align: center;
+  color: #a65c7d;
+  font: 14px/1.6 Arial, sans-serif;
+  overflow-wrap: anywhere;
+}
+@media (max-width: 500px) {
+  .message-form input, .message-form textarea, .message-form select { font-size: 16px; }
+}
+</style>
+</head>
+
+<body>
+<div id="heart-background" aria-hidden="true"></div>
+
+<main class="page">
+  <div class="top-note">a little corner of happiness ♡</div>
+
+  <header class="hero">
+    <div class="flower">❀</div>
+    <h1>A Little Something<br>For Kaylla ♡</h1>
+    <p class="hero-subtitle">
+      A little space filled with soft thoughts, tiny reminders,
+      and a few things I wanted you to know.
+      No special occasion needed to remind someone
+      that they matter. 🌷
+    </p>
+    <div class="small-divider">✧ · ♡ · ✧</div>
+  </header>
+
+  <section class="section-card">
+    <h2>A little reminder for you 💗</h2>
+    <p class="section-intro">
+      Whenever life feels a little heavy, or you just need
+      a reason to smile, I hope this little corner makes
+      your day feel a bit softer.
+    </p>
+    <div class="button-wrap">
+      <button class="pretty-button" onclick="showSmile()">
+        Tap when you need a smile ♡
+      </button>
+    </div>
+    <div class="message-box" id="smileMessage" aria-live="polite">
+      A little reminder that someone is wishing you a happy day. 🌸
+    </div>
+  </section>
+
+  <section class="section-card">
+    <h2>A few little reasons 🌷</h2>
+    <p class="section-intro">
+      Some things deserve to be appreciated, even if they seem small.
+    </p>
+    <div class="reasons" id="reasonsContainer" aria-label="Six little reasons to smile"></div>
+  </section>
+
+  <section class="section-card">
+    <h2>Little messages, just because 💌</h2>
+    <p class="section-intro">
+      There's no particular reason for these. Just little words you can come back to.
+    </p>
+    <div class="button-wrap">
+      <button class="pretty-button" onclick="nextDailyMessage()">
+        Another little message ✧
+      </button>
+    </div>
+    <div class="message-box" id="dailyMessage" aria-live="polite"></div>
+  </section>
+
+  <section class="section-card" id="shareWithVannie">
+    <h2>What made your day today? 🌷</h2>
+    <p class="section-intro">
+      It can be something big, something funny, or one tiny thing that made you smile.
+      Share your little moment with Vannie.
+    </p>
+    <form class="message-form" id="dailyMomentForm">
+      <div>
+        <label for="dailyMomentText">Your happy moment today</label>
+        <textarea
+          id="dailyMomentText"
+          maxlength="2000"
+          required
+          placeholder="Today, something that made me happy was... ✨"
+        ></textarea>
+      </div>
+      <button class="pretty-button" type="submit">Share my moment ♡</button>
+      <p class="form-status" id="dailyMomentStatus" role="status" aria-live="polite"></p>
+    </form>
+  </section>
+
+  <section class="section-card">
+    <h2>Until your special day 🎂</h2>
+    <p class="section-intro">
+      Someone's birthday is getting closer, and there's a little something
+      waiting for you. For now, let the anticipation do its thing. 💗
+    </p>
+    <div class="countdown-grid" aria-label="Birthday countdown">
+      <div class="time-unit"><span class="time-number" id="days">00</span><span class="time-label">Days</span></div>
+      <div class="time-unit"><span class="time-number" id="hours">00</span><span class="time-label">Hours</span></div>
+      <div class="time-unit"><span class="time-number" id="minutes">00</span><span class="time-label">Minutes</span></div>
+      <div class="time-unit"><span class="time-number" id="seconds">00</span><span class="time-label">Seconds</span></div>
+    </div>
+    <p class="countdown-date" id="countdownCaption">Counting down to 13 December 2026 ♡</p>
+  </section>
+
+  <section class="section-card">
+    <h2>A little birthday surprise 🎀</h2>
+    <div class="birthday-lock" id="birthdayLocked">
+      <div class="lock-flower">🌷</div>
+      <p class="section-intro">
+        There's a little letter waiting here for you.
+        This one is saved for your special day.
+      </p>
+      <p style="color:#c16c91;line-height:1.9;">
+        Come back on 13 December 2026 ♡
+      </p>
+    </div>
+
+    <div class="hidden" id="birthdayUnlocked">
+      <div class="button-wrap">
+        <button class="pretty-button" onclick="openBirthdayLetter()">
+          Open your birthday letter 💌
+        </button>
+      </div>
+      <div class="letter hidden" id="birthdayLetter">
+        <h3>Happy Birthday, Kaylla ♡</h3>
+        <p>Happy birthday, Kaylla! 🌷</p>
+        <p>
+          Today is your day, and I hope it brings you so many reasons to smile.
+          I hope you feel loved, appreciated, and surrounded by little moments
+          that make your heart happy.
+        </p>
+        <p>
+          I hope this new chapter brings you beautiful memories,
+          unexpected happiness, and reasons to be proud of the person you're becoming.
+        </p>
+        <p>
+          Never forget that you deserve kindness, happiness,
+          and all the good things life has waiting for you.
+        </p>
+        <p>
+          Thank you for being someone worth celebrating.
+          I hope your birthday is as lovely as the smile you bring into other people's days. 💗
+        </p>
+        <p>
+          Enjoy your special day, take lots of pictures, make beautiful memories,
+          and remember to smile.
+        </p>
+        <div class="signature">Made with love by Vannie ♡</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="small-divider">✧ · ♡ · ✧</div>
+  <footer class="footer">
+    A little reminder, whenever you need one.
+    <strong>Made with love by Vannie ♡</strong>
+  </footer>
+</main>
+
+<script>
+// Floating hearts
+const heartBackground = document.getElementById("heart-background");
+
+for (let i = 0; i < 22; i++) {
+  const heart = document.createElement("span");
+  heart.className = "floating-heart";
+  heart.textContent = ["♡", "♥", "✧", "❀"][i % 4];
+  heart.style.left = Math.random() * 100 + "%";
+  heart.style.fontSize = (12 + Math.random() * 19) + "px";
+  heart.style.animationDuration = (13 + Math.random() * 13) + "s";
+  heart.style.animationDelay = (Math.random() * 18) + "s";
+  heartBackground.appendChild(heart);
+}
+
+// Flip a reason card and send a little burst of hearts from it.
+function flipReason(card) {
+  const isFlipped = card.classList.toggle("is-flipped");
+  card.setAttribute("aria-pressed", String(isFlipped));
+  burstHearts(card);
+}
+
+function burstHearts(card) {
+  const rect = card.getBoundingClientRect();
+  const centerX = rect.left + rect.width / 2;
+  const centerY = rect.top + rect.height / 2;
+  const symbols = ["♡", "♥", "💕", "💗", "💖", "✧"];
+  const total = 15;
+
+  for (let i = 0; i < total; i++) {
+    const heart = document.createElement("span");
+    heart.className = "heart-burst";
+    heart.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+    heart.style.left = centerX + "px";
+    heart.style.top = centerY + "px";
+    heart.style.setProperty("--burst-x", (Math.random() * 220 - 110) + "px");
+    heart.style.setProperty("--burst-y", (Math.random() * -170 - 25) + "px");
+    heart.style.setProperty("--burst-scale", (0.65 + Math.random() * 1.05).toFixed(2));
+    heart.style.setProperty("--burst-rotate", (Math.random() * 100 - 50) + "deg");
+    heart.style.animationDelay = (Math.random() * 100) + "ms";
+    document.body.appendChild(heart);
+    heart.addEventListener("animationend", () => heart.remove(), { once: true });
+  }
+}
+
+// Six little reasons. These are shuffled once per day.
+const reasonMessages = [
+  { icon: "🌷", message: "You make ordinary moments feel a little more special." },
+  { icon: "🦋", message: "Never forget how beautiful your smile is." },
+  { icon: "💗", message: "You deserve the same happiness you bring to others." },
+  { icon: "✨", message: "You have a way of making someone's day better without even trying." },
+  { icon: "🌸", message: "There's something about you that makes you unforgettable." },
+  { icon: "🧸", message: "I hope you always remember that you're appreciated more than you know. ♡" },
+  { icon: "💌", message: "I hope life surprises you with the kind of happiness you never want to end." },
+  { icon: "🌙", message: "Even on your quiet days, you are still someone worth appreciating." },
+  { icon: "🎀", message: "You deserve to feel special without needing a special occasion." },
+  { icon: "🌻", message: "I hope you never lose the little things that make you uniquely you." },
+  { icon: "💕", message: "The world is a little sweeter with people like you in it." },
+  { icon: "🩷", message: "I hope you see just how much there is to love about the person you are." }
+];
+
+function getLocalDateKey() {
+  const now = new Date();
+  return [
+    now.getFullYear(),
+    String(now.getMonth() + 1).padStart(2, "0"),
+    String(now.getDate()).padStart(2, "0")
+  ].join("-");
+}
+
+function shuffleReasons() {
+  const shuffled = [...reasonMessages];
+
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+
+  return shuffled.slice(0, 6);
+}
+
+function renderReasons() {
+  const container = document.getElementById("reasonsContainer");
+  if (!container) return;
+
+  const today = getLocalDateKey();
+  let chosenReasons = null;
+
+  try {
+    const savedDate = localStorage.getItem("reasonsDate");
+    const savedReasons = JSON.parse(
+      localStorage.getItem("reasonsForToday") || "null"
+    );
+
+    if (
+      savedDate === today &&
+      Array.isArray(savedReasons) &&
+      savedReasons.length === 6
+    ) {
+      chosenReasons = savedReasons;
+    }
+  } catch (error) {
+    chosenReasons = null;
+  }
+
+  if (!chosenReasons) {
+    chosenReasons = shuffleReasons();
+
+    try {
+      localStorage.setItem("reasonsDate", today);
+      localStorage.setItem("reasonsForToday", JSON.stringify(chosenReasons));
+    } catch (error) {
+      // The cards still work if local storage is unavailable.
+    }
+  }
+
+  container.innerHTML = "";
+
+  chosenReasons.forEach((reason) => {
+    const card = document.createElement("button");
+    card.className = "reason-card";
+    card.type = "button";
+    card.setAttribute("aria-pressed", "false");
+    card.setAttribute("aria-label", "Tap to reveal a little reason");
+
+    card.innerHTML = `
+      <span class="reason-inner">
+        <span class="reason-face reason-front">
+          <span class="reason-icon"></span>
+          <small>tap to open ♡</small>
+        </span>
+        <span class="reason-face reason-back">
+          <span class="back-flower"></span>
+          <p></p>
+        </span>
+      </span>
+    `;
+
+    card.querySelector(".reason-icon").textContent = reason.icon;
+    card.querySelector(".back-flower").textContent = reason.icon;
+    card.querySelector(".reason-back p").textContent = reason.message;
+    card.addEventListener("click", () => flipReason(card));
+    container.appendChild(card);
+  });
+}
+
+function scheduleReasonsMidnightUpdate() {
+  const now = new Date();
+  const nextMidnight = new Date(
+    now.getFullYear(),
+    now.getMonth(),
+    now.getDate() + 1,
+    0, 0, 0, 0
+  );
+
+  const delay = nextMidnight.getTime() - now.getTime();
+
+  setTimeout(() => {
+    renderReasons();
+    scheduleReasonsMidnightUpdate();
+  }, Math.max(delay, 1));
+}
+
+renderReasons();
+scheduleReasonsMidnightUpdate();
+
+// "A little reminder for you" messages.
+const smileMessages = [
+  "I hope you know that there's something genuinely special about you, something that makes you memorable without you even trying. ♡",
+  "If I could wish one thing for you today, it would be that you get to see yourself through the eyes of the people who appreciate you. 🌷",
+  "You have this beautiful way of making ordinary moments feel a little less ordinary. I hope life gives that same happiness back to you. 💗",
+  "Somewhere, someone is smiling just because you exist. Never underestimate how much your presence can mean to another person. 🦋",
+  "I hope today gives you a reason to smile that you weren't expecting, a moment you'll think about later and smile all over again. 🌸",
+  "You deserve the kind of happiness that doesn't need a reason, the kind that finds you on an ordinary day and decides to stay. ✨",
+  "If today feels a little difficult, I hope something reminds you that difficult moments don't take away any of the beautiful things about you. ♡",
+  "There's so much more to you than you probably realise, and I hope you keep discovering little things about yourself that make you proud. 💌",
+  "I hope you never feel like you have to be someone else to be appreciated. The person you already are is worth getting to know. 🌷",
+  "May you always have people around you who notice the little things, celebrate your happiness, and remind you that you matter. 💗",
+  "Imagine how many beautiful memories you haven't made yet, how many unexpected laughs are still waiting for you, and how many lovely days are still ahead. 🦋",
+  "A little wish for you today: may something make you laugh unexpectedly, may someone make you feel appreciated, and may you end the day happier than you started it. ♡"
+];
+
+const smileSpecialDate = "2026-10-17";
+const smileSpecialMessage =
+  "Keep a smile on your face, Kaylla, because you have a way of brightening someone else's day without even realising it. Never underestimate how much happiness your smile can bring. ♡🌷";
+
+let lastSmile = -1;
+let lastSmileDate = "";
+
+function chooseRandomSmile() {
+  let index;
+
+  do {
+    index = Math.floor(Math.random() * smileMessages.length);
+  } while (smileMessages.length > 1 && index === lastSmile);
+
+  lastSmile = index;
+  return smileMessages[index];
+}
+
+function setAutomaticSmileMessage() {
+  const today = getLocalDateKey();
+  const box = document.getElementById("smileMessage");
+
+  if (!box || lastSmileDate === today) return;
+
+  let message;
+
+  if (today === smileSpecialDate) {
+    message = smileSpecialMessage;
+  } else {
+    const savedDate = localStorage.getItem("smileReminderDate");
+    const savedMessage = localStorage.getItem("smileReminderText");
+
+    message =
+      savedDate === today && savedMessage
+        ? savedMessage
+        : chooseRandomSmile();
+  }
+
+  box.textContent = message;
+  lastSmileDate = today;
+
+  localStorage.setItem("smileReminderDate", today);
+  localStorage.setItem("smileReminderText", message);
+}
+
+// The button also works when pressed.
+function showSmile() {
+  const today = getLocalDateKey();
+  const box = document.getElementById("smileMessage");
+
+  box.textContent = chooseRandomSmile();
+  lastSmileDate = today;
+
+  localStorage.setItem("smileReminderDate", today);
+  localStorage.setItem("smileReminderText", box.textContent);
+}
+
+// Daily messages.
+const dailyMessages = [
+  "I hope something unexpectedly lovely happens to you today. ♡",
+  "You deserve moments that make you forget to worry for a while. 🌷",
+  "Never underestimate the beauty of simply being yourself. ✨",
+  "I hope today's little moments give you reasons to smile. 💗",
+  "You are allowed to take things one step at a time. 🦋",
+  "May today be a little gentler on your heart. 🌸",
+  "You deserve friendships that feel safe, honest, and happy. ♡",
+  "I hope you laugh about something silly today. 💌",
+  "Even small progress is still progress. Be proud of yourself.",
+  "You don't have to be perfect to be appreciated. 🌷",
+  "May you find happiness in an ordinary moment today. ✨",
+  "Your happiness matters, even on the days you forget that. 💗",
+  "Keep a little room in your day for something that makes you happy.",
+  "You deserve to hear kind words and believe them too. ♡",
+  "I hope someone makes you feel appreciated today. 🌸",
+  "There are still so many lovely memories waiting to be made.",
+  "Be gentle with yourself. You're doing the best you can. 🦋",
+  "May your day have more smiles than worries. 💗",
+  "You never know how much a little kindness can mean. 🌷",
+  "I hope you find something beautiful in today. ✨",
+  "You deserve a moment to rest without feeling guilty. ♡",
+  "May the things that make you happy find you often.",
+  "A little reminder to drink water, breathe, and look after yourself. 💌",
+  "No matter how today goes, you can begin again tomorrow. 🌸"
+];
+
+const specialMessageDate = "2026-10-17";
+const specialMessage =
+  "Keep a smile on your face, Kaylla, because you have a way of brightening someone else's day without even realising it. Never underestimate how much happiness your smile can bring. ♡🌷";
+
+function isSpecialMessageDay() {
+  return getLocalDateKey() === specialMessageDate;
+}
+
+function setAutomaticDailyMessage() {
+  const box = document.getElementById("dailyMessage");
+
+  if (isSpecialMessageDay()) {
+    box.textContent = specialMessage;
+    return;
+  }
+
+  const dayNumber = Math.floor(
+    (new Date().getTime() - new Date(2026, 0, 1).getTime()) / 86400000
+  );
+
+  const index =
+    ((dayNumber % dailyMessages.length) + dailyMessages.length) %
+    dailyMessages.length;
+
+  box.textContent = dailyMessages[index];
+}
+
+function nextDailyMessage() {
+  const box = document.getElementById("dailyMessage");
+
+  if (isSpecialMessageDay()) {
+    box.textContent = specialMessage;
+    return;
+  }
+
+  const index = Math.floor(Math.random() * dailyMessages.length);
+  box.textContent = dailyMessages[index];
+}
+
+// Birthday countdown to 13 December 2026.
+const birthdayStart = new Date(2026, 11, 13, 0, 0, 0);
+const birthdayEnd = new Date(2026, 11, 14, 0, 0, 0);
+
+function updateCountdown() {
+  const now = new Date();
+  const difference = birthdayStart.getTime() - now.getTime();
+  const locked = document.getElementById("birthdayLocked");
+  const unlocked = document.getElementById("birthdayUnlocked");
+  const caption = document.getElementById("countdownCaption");
+
+  if (now >= birthdayStart && now < birthdayEnd) {
+    ["days", "hours", "minutes", "seconds"].forEach(id => {
+      document.getElementById(id).textContent = "00";
+    });
+
+    caption.textContent = "It's your special day, Kaylla! Happy birthday ♡";
+    locked.classList.add("hidden");
+    unlocked.classList.remove("hidden");
+    return;
+  }
+
+  if (now >= birthdayEnd) {
+    ["days", "hours", "minutes", "seconds"].forEach(id => {
+      document.getElementById(id).textContent = "00";
+    });
+
+    caption.textContent = "Your special day was 13 December 2026 ♡";
+    locked.classList.add("hidden");
+    unlocked.classList.remove("hidden");
+    return;
+  }
+
+  const totalSeconds = Math.max(0, Math.floor(difference / 1000));
+  const days = Math.floor(totalSeconds / 86400);
+  const hours = Math.floor((totalSeconds % 86400) / 3600);
+  const minutes = Math.floor((totalSeconds % 3600) / 60);
+  const seconds = totalSeconds % 60;
+
+  document.getElementById("days").textContent = String(days).padStart(2, "0");
+  document.getElementById("hours").textContent = String(hours).padStart(2, "0");
+  document.getElementById("minutes").textContent = String(minutes).padStart(2, "0");
+  document.getElementById("seconds").textContent = String(seconds).padStart(2, "0");
+
+  caption.textContent = "Counting down to 13 December 2026 ♡";
+  locked.classList.remove("hidden");
+  unlocked.classList.add("hidden");
+}
+
+function openBirthdayLetter() {
+  document.getElementById("birthdayLetter").classList.remove("hidden");
+}
+
+// Start all website features.
+setAutomaticSmileMessage();
+setAutomaticDailyMessage();
+updateCountdown();
+
+setInterval(updateCountdown, 1000);
+setInterval(setAutomaticDailyMessage, 30000);
+
+// Refresh the reminder and the six cards at midnight.
+function scheduleNextMidnightUpdate() {
+  const now = new Date();
+
+  const nextMidnight = new Date(
+    now.getFullYear(),
+    now.getMonth(),
+    now.getDate() + 1,
+    0, 0, 0, 0
+  );
+
+  const delay = nextMidnight.getTime() - now.getTime();
+
+  setTimeout(() => {
+    setAutomaticSmileMessage();
+    renderReasons();
+    setAutomaticDailyMessage();
+    scheduleNextMidnightUpdate();
+  }, Math.max(delay, 1));
+}
+
+scheduleNextMidnightUpdate();
+
+// If the page was asleep at midnight, refresh when it becomes visible again.
+document.addEventListener("visibilitychange", () => {
+  if (!document.hidden) {
+    setAutomaticSmileMessage();
+    renderReasons();
+    setAutomaticDailyMessage();
+    updateCountdown();
+  }
+});
+</script>
+
+<!-- Daily moment sharing. Firebase must be configured before submissions can be saved. -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
+  import {
+    getFirestore,
+    collection,
+    addDoc,
+    serverTimestamp
+  } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
+
+  // Replace these placeholders with your Firebase web-app configuration.
+  const firebaseConfig = {
+    apiKey: "PASTE_YOUR_FIREBASE_API_KEY",
+    authDomain: "PASTE_YOUR_PROJECT_ID.firebaseapp.com",
+    projectId: "PASTE_YOUR_PROJECT_ID",
+    appId: "PASTE_YOUR_FIREBASE_APP_ID"
+  };
+
+  const configured =
+    firebaseConfig.apiKey !== "PASTE_YOUR_FIREBASE_API_KEY" &&
+    firebaseConfig.projectId !== "PASTE_YOUR_PROJECT_ID" &&
+    firebaseConfig.appId !== "PASTE_YOUR_FIREBASE_APP_ID";
+
+  const form = document.getElementById("dailyMomentForm");
+  const textArea = document.getElementById("dailyMomentText");
+  const status = document.getElementById("dailyMomentStatus");
+  let db = null;
+
+  function showSetupNotice() {
+    status.textContent =
+      "Firebase setup is still needed before moments can be shared.";
+  }
+
+  form.addEventListener("submit", async (event) => {
+    event.preventDefault();
+
+    const message = textArea.value.trim();
+
+    if (!message) {
+      status.textContent = "Please write something first. ♡";
+      return;
+    }
+
+    if (!configured || !db) {
+      status.textContent =
+        "Not shared yet — please finish the Firebase setup first.";
+      return;
+    }
+
+    const button = form.querySelector('button[type="submit"]');
+    button.disabled = true;
+    button.style.opacity = "0.7";
+    status.textContent = "Sharing your little moment… ♡";
+
+    try {
+      await addDoc(collection(db, "messages"), {
+        sender: "Kaylla",
+        type: "daily",
+        message: message,
+        createdAt: serverTimestamp()
+      });
+
+      form.reset();
+      status.textContent = "Your moment has been shared. ♡";
+    } catch (error) {
+      console.error("Moment sharing failed:", error);
+      status.textContent =
+        "It couldn't be shared. Please check the Firebase setup, database rules, and internet connection.";
+    } finally {
+      button.disabled = false;
+      button.style.opacity = "1";
+    }
+  });
+
+  if (configured) {
+    try {
+      const app = initializeApp(firebaseConfig);
+      db = getFirestore(app);
+      status.textContent = "Ready to share your happy moment. ♡";
+    } catch (error) {
+      console.error("Firebase setup error:", error);
+      showSetupNotice();
+    }
+  } else {
+    showSetupNotice();
+  }
+</script>
+</body>
+</html>
