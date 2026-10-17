@@ -453,10 +453,13 @@ p { line-height: 1.9; }
   .message-form input, .message-form textarea, .message-form select { font-size: 16px; }
 }
 
-/* Animated photo memories */
-.photo-gallery { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:17px; margin-top:24px; }
-.memory-photo { opacity:0; transform:translateY(24px); transition:opacity .8s ease, transform .8s ease; }
-.memory-photo.in-view { opacity:1; transform:translateY(0); }
+/* Photo memories flip into view like a little reveal */
+.photo-gallery { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:17px; margin-top:24px; perspective:1000px; }
+.memory-photo { opacity:1; transform:none; perspective:1000px; }
+.memory-photo figure { cursor:pointer; transform-style:preserve-3d; transition:transform .8s cubic-bezier(.2,.75,.25,1), box-shadow .3s ease; }
+.memory-photo figure:focus-visible { outline:3px solid #d96f9b; outline-offset:4px; }
+.memory-photo.flipped figure { transform:rotateY(360deg); box-shadow:0 12px 28px rgba(177,101,136,.22); }
+
 .memory-photo figure { height:100%; padding:10px 10px 16px; background:#fffafd; border:1px solid #f1d7e3; border-radius:17px; box-shadow:0 8px 22px rgba(177,101,136,.1); }
 .memory-photo img { display:block; width:100%; aspect-ratio:4/5; object-fit:cover; border-radius:10px; background:#fff0f6; }
 .memory-photo figcaption { text-align:center; color:#95677d; line-height:1.65; padding:12px 3px 0; font-size:14px; }
@@ -467,7 +470,7 @@ p { line-height: 1.9; }
 .memory-photo.favourite img { aspect-ratio:4/3; }
 .memory-photo.favourite figcaption { color:#c66e95; font-size:17px; font-style:italic; }
 @media(max-width:500px) { .photo-gallery {gap:10px;} .memory-photo figure {padding:7px 7px 12px;} .memory-photo figcaption {font-size:12px;} }
-@media(prefers-reduced-motion:reduce) { .memory-photo {opacity:1;transform:none;transition:none;} }
+@media(prefers-reduced-motion:reduce) { .memory-photo figure {transition:none;} }
 
 </style>
 </head>
@@ -1119,21 +1122,23 @@ document.addEventListener("visibilitychange", () => {
   }
 </script>
 <script>
-  // Reveal each photo as it scrolls into view, matching the soft fade-up effect.
-  const memoryPhotos = document.querySelectorAll(".memory-photo");
-  if ("IntersectionObserver" in window) {
-    const photoObserver = new IntersectionObserver((entries, observer) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add("in-view");
-          observer.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.15 });
-    memoryPhotos.forEach(photo => photoObserver.observe(photo));
-  } else {
-    memoryPhotos.forEach(photo => photo.classList.add("in-view"));
-  }
+  // Let Kaylla tap/click a photo to flip it as a little reveal.
+  document.querySelectorAll(".memory-photo").forEach((photo, index) => {
+    const figure = photo.querySelector("figure");
+    figure.setAttribute("role", "button");
+    figure.setAttribute("tabindex", "0");
+    figure.setAttribute("aria-label", "Tap to flip this memory photo");
+    function flipPhoto() {
+      photo.classList.toggle("flipped");
+    }
+    figure.addEventListener("click", flipPhoto);
+    figure.addEventListener("keydown", event => {
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        flipPhoto();
+      }
+    });
+  });
 </script>
 </body>
 </html>
