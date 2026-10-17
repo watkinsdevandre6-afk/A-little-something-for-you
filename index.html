@@ -1044,18 +1044,15 @@ document.addEventListener("visibilitychange", () => {
     serverTimestamp
   } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
 
-  // Replace these placeholders with your Firebase web-app configuration.
+  // Firebase web-app configuration for Kaylla's website.
   const firebaseConfig = {
-    apiKey: "PASTE_YOUR_FIREBASE_API_KEY",
-    authDomain: "PASTE_YOUR_PROJECT_ID.firebaseapp.com",
-    projectId: "PASTE_YOUR_PROJECT_ID",
-    appId: "PASTE_YOUR_FIREBASE_APP_ID"
+    apiKey: "AIzaSyAR9W8KKGmRdErIUAZv_pA0x3r8VRTVeHM",
+    authDomain: "kayllas-website.firebaseapp.com",
+    projectId: "kayllas-website",
+    appId: "1:659808564479:web:a9f88635ba91e31489c8ca"
   };
 
-  const configured =
-    firebaseConfig.apiKey !== "PASTE_YOUR_FIREBASE_API_KEY" &&
-    firebaseConfig.projectId !== "PASTE_YOUR_PROJECT_ID" &&
-    firebaseConfig.appId !== "PASTE_YOUR_FIREBASE_APP_ID";
+  const configured = true;
 
   const form = document.getElementById("dailyMomentForm");
   const textArea = document.getElementById("dailyMomentText");
