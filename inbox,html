@@ -1,0 +1,430 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Private Inbox ♡</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 24px 14px;
+      min-height: 100vh;
+      background: linear-gradient(135deg, #fff4f8, #fce5ef);
+      color: #795568;
+      font-family: Arial, sans-serif;
+    }
+
+    .container {
+      max-width: 760px;
+      margin: 30px auto;
+    }
+
+    .panel {
+      background: rgba(255, 255, 255, 0.95);
+      border: 1px solid #f1d3e0;
+      border-radius: 22px;
+      padding: 25px;
+      box-shadow: 0 12px 35px rgba(180, 105, 140, 0.12);
+    }
+
+    h1, h2 {
+      color: #c56d94;
+      text-align: center;
+    }
+
+    .subtitle {
+      text-align: center;
+      line-height: 1.7;
+    }
+
+    label {
+      display: block;
+      margin: 14px 0 6px;
+    }
+
+    input {
+      width: 100%;
+      padding: 13px;
+      border: 1px solid #edc9d9;
+      border-radius: 12px;
+      font-size: 16px;
+      background: #fffafd;
+    }
+
+    button {
+      border: none;
+      border-radius: 12px;
+      padding: 12px 18px;
+      background: #d979a3;
+      color: white;
+      font-size: 15px;
+      cursor: pointer;
+    }
+
+    button:disabled {
+      opacity: 0.6;
+      cursor: wait;
+    }
+
+    .primary {
+      width: 100%;
+      margin-top: 18px;
+    }
+
+    .secondary {
+      background: #a97a91;
+    }
+
+    .status {
+      text-align: center;
+      line-height: 1.6;
+      overflow-wrap: anywhere;
+      margin-top: 14px;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    .message-list {
+      display: grid;
+      gap: 14px;
+      margin-top: 20px;
+    }
+
+    .message {
+      min-width: 0;
+      padding: 17px;
+      border-radius: 15px;
+      background: #fff5f9;
+      border: 1px solid #f1d6e2;
+    }
+
+    .message-meta {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 12px;
+      color: #a57991;
+      font-size: 12px;
+    }
+
+    .message-body {
+      display: block;
+      height: auto;
+      max-height: none;
+      overflow: visible;
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+      word-break: normal;
+      line-height: 1.8;
+      font-size: 16px;
+      color: #68495b;
+      margin: 0;
+    }
+
+    .message-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 14px;
+    }
+
+    .empty {
+      text-align: center;
+      padding: 24px 8px;
+      line-height: 1.7;
+    }
+
+    .footer {
+      text-align: center;
+      margin-top: 22px;
+      font-size: 13px;
+      color: #b58ba0;
+    }
+
+    @media (max-width: 480px) {
+      .panel {
+        padding: 19px;
+      }
+
+      .message {
+        padding: 14px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="container">
+    <section class="panel">
+      <h1>♡ Your Private Inbox ♡</h1>
+      <p class="subtitle">
+        A little place for all the messages and moments
+        shared with you. 💌
+      </p>
+
+      <form id="loginForm">
+        <label for="email">Email address</label>
+        <input
+          id="email"
+          type="email"
+          autocomplete="username"
+          required
+          placeholder="Your Firebase email"
+        >
+
+        <label for="password">Password</label>
+        <input
+          id="password"
+          type="password"
+          autocomplete="current-password"
+          required
+          placeholder="Your password"
+        >
+
+        <button class="primary" id="loginButton" type="submit">
+          Sign in ♡
+        </button>
+      </form>
+
+      <p id="loginStatus" class="status" role="status"></p>
+
+      <section id="inboxSection" class="hidden">
+        <h2>Messages 💗</h2>
+        <p id="inboxStatus" class="status" role="status">
+          Loading messages…
+        </p>
+
+        <div class="message-actions">
+          <button id="refreshButton" type="button">
+            Refresh messages
+          </button>
+          <button id="logoutButton" class="secondary" type="button">
+            Sign out
+          </button>
+        </div>
+
+        <div id="messageList" class="message-list"></div>
+      </section>
+    </section>
+
+    <p class="footer">Made with love ♡</p>
+  </main>
+
+  <script type="module">
+    import { initializeApp } from
+      "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
+
+    import {
+      getAuth,
+      signInWithEmailAndPassword,
+      onAuthStateChanged,
+      signOut
+    } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
+
+    import {
+      getFirestore,
+      collection,
+      query,
+      orderBy,
+      getDocs,
+      limit
+    } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
+
+    // Your existing Firebase project configuration.
+    const firebaseConfig = {
+      apiKey: "AIzaSyAR9W8KKGmRdErIUAZv_pA0x3r8VRTVeHM",
+      authDomain: "kayllas-website.firebaseapp.com",
+      projectId: "kayllas-website",
+      storageBucket: "kayllas-website.firebasestorage.app",
+      messagingSenderId: "659808564479",
+      appId: "1:659808564479:web:a9f88635ba91e31489c8ca",
+      measurementId: "G-BY5J3PNXQ6"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    const loginForm = document.getElementById("loginForm");
+    const loginButton = document.getElementById("loginButton");
+    const loginStatus = document.getElementById("loginStatus");
+    const inboxSection = document.getElementById("inboxSection");
+    const inboxStatus = document.getElementById("inboxStatus");
+    const messageList = document.getElementById("messageList");
+
+    const refreshButton = document.getElementById("refreshButton");
+    const logoutButton = document.getElementById("logoutButton");
+
+    // Only this Firebase account should be able to read messages.
+    const OWNER_UID = "dPHuq5Ch0xcHtuATiHY4HEi1vcC3";
+
+    let loading = false;
+
+    loginForm.addEventListener("submit", async (event) => {
+      event.preventDefault();
+
+      const email = document.getElementById("email").value.trim();
+      const password = document.getElementById("password").value;
+
+      loginButton.disabled = true;
+      loginStatus.textContent = "Signing in… ♡";
+
+      try {
+        await signInWithEmailAndPassword(auth, email, password);
+        loginStatus.textContent = "";
+      } catch (error) {
+        console.error(error);
+        loginStatus.textContent =
+          "Sign-in failed. Check your email and password, then try again.";
+      } finally {
+        loginButton.disabled = false;
+      }
+    });
+
+    onAuthStateChanged(auth, async (user) => {
+      if (!user) {
+        loginForm.classList.remove("hidden");
+        inboxSection.classList.add("hidden");
+        messageList.replaceChildren();
+        return;
+      }
+
+      // Do not show messages to any other signed-in account.
+      if (user.uid !== OWNER_UID) {
+        loginStatus.textContent =
+          "This account is not authorised to open this inbox.";
+
+        await signOut(auth);
+        return;
+      }
+
+      loginForm.classList.add("hidden");
+      inboxSection.classList.remove("hidden");
+
+      await loadMessages();
+    });
+
+    async function loadMessages() {
+      if (!auth.currentUser ||
+          auth.currentUser.uid !== OWNER_UID ||
+          loading) {
+        return;
+      }
+
+      loading = true;
+      refreshButton.disabled = true;
+      inboxStatus.textContent = "Loading your messages… ♡";
+      messageList.replaceChildren();
+
+      try {
+        const messagesQuery = query(
+          collection(db, "messages"),
+          orderBy("createdAt", "desc"),
+          limit(200)
+        );
+
+        const snapshot = await getDocs(messagesQuery);
+
+        if (snapshot.empty) {
+          inboxStatus.textContent = "";
+          const empty = document.createElement("p");
+          empty.className = "empty";
+          empty.textContent =
+            "No messages yet. Your messages will appear here. ♡";
+          messageList.appendChild(empty);
+          return;
+        }
+
+        inboxStatus.textContent =
+          `${snapshot.size} message(s) found. ♡`;
+
+        snapshot.forEach((documentSnapshot) => {
+          const data = documentSnapshot.data();
+
+          const card = document.createElement("article");
+          card.className = "message";
+
+          const meta = document.createElement("div");
+          meta.className = "message-meta";
+
+          const type = document.createElement("span");
+          type.textContent =
+            data.type === "daily"
+              ? "Daily moment"
+              : "Private message";
+
+          const date = document.createElement("span");
+
+          if (data.createdAt?.toDate) {
+            date.textContent = data.createdAt.toDate().toLocaleString();
+          } else {
+            date.textContent = "Date unavailable";
+          }
+
+          meta.append(type, date);
+
+          const body = document.createElement("p");
+          body.className = "message-body";
+
+          // textContent safely displays the full message, including line breaks.
+          body.textContent =
+            typeof data.message === "string"
+              ? data.message
+              : "(This document has no message text.)";
+
+          const actions = document.createElement("div");
+          actions.className = "message-actions";
+
+          const copyButton = document.createElement("button");
+          copyButton.type = "button";
+          copyButton.textContent = "Copy message";
+
+          copyButton.addEventListener("click", async () => {
+            try {
+              await navigator.clipboard.writeText(body.textContent);
+              copyButton.textContent = "Copied! ♡";
+              setTimeout(() => {
+                copyButton.textContent = "Copy message";
+              }, 1800);
+            } catch {
+              inboxStatus.textContent =
+                "Copying was blocked by your browser. You can select the message text manually.";
+            }
+          });
+
+          actions.appendChild(copyButton);
+          card.append(meta, body, actions);
+          messageList.appendChild(card);
+        });
+
+      } catch (error) {
+        console.error("Could not load messages:", error);
+
+        inboxStatus.textContent =
+          error.code === "permission-denied"
+            ? "Access denied. Check your Firestore security rules and owner UID."
+            : "Could not load messages. Check your internet connection and Firebase setup.";
+      } finally {
+        loading = false;
+        refreshButton.disabled = false;
+      }
+    }
+
+    refreshButton.addEventListener("click", loadMessages);
+
+    logoutButton.addEventListener("click", async () => {
+      await signOut(auth);
+      loginStatus.textContent = "You have signed out. ♡";
+    });
+  </script>
+</body>
+</html>
