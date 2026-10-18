@@ -472,6 +472,27 @@ p { line-height: 1.9; }
 @media(max-width:500px) { .photo-gallery {gap:10px;} .memory-photo figure {padding:7px 7px 12px;} .memory-photo figcaption {font-size:12px;} }
 @media(prefers-reduced-motion:reduce) { .memory-photo figure {transition:none;} }
 
+
+/* Small music player at the top — music starts only after Kaylla taps */
+.music-player {
+  text-align: center;
+  margin: 0 auto 24px;
+  padding: 17px 15px;
+  max-width: 430px;
+  border: 1px solid rgba(230, 170, 196, 0.55);
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.72);
+  box-shadow: 0 8px 24px rgba(177, 101, 136, 0.07);
+}
+.music-player p {
+  color: var(--muted);
+  font-size: 13px;
+  margin-top: 8px;
+}
+.music-player .pretty-button {
+  margin: 0;
+}
+
 </style>
 </head>
 
@@ -480,6 +501,20 @@ p { line-height: 1.9; }
 
 <main class="page">
   <div class="top-note">a little corner of happiness ♡</div>
+
+  <section class="music-player" aria-label="Music player">
+    <button class="pretty-button" id="musicToggle" type="button" aria-pressed="false">
+      When this song plays, it reminds me of you ♡
+    </button>
+    <p>24 Hours — Kaylow 🎶</p>
+    <p>Play it before you scroll ♡</p>
+    <audio id="pageSong" preload="metadata" loop>
+      <source src="Kaylow%20-%2024%20Hours%20(Official%20Video)%20%5BJ7Jkd1YG29I%5D.mp3" type="audio/mpeg">
+      Your browser does not support audio playback.
+    </audio>
+    <p id="musicStatus" role="status" aria-live="polite"></p>
+  </section>
+
 
   <header class="hero">
     <div class="flower">❀</div>
@@ -634,6 +669,33 @@ p { line-height: 1.9; }
 </main>
 
 <script>
+
+// Music player: starts only after a tap, then continues while the page scrolls.
+const pageSong = document.getElementById("pageSong");
+const musicToggle = document.getElementById("musicToggle");
+const musicStatus = document.getElementById("musicStatus");
+
+musicToggle.addEventListener("click", async () => {
+  if (!pageSong || !musicToggle) return;
+
+  if (pageSong.paused) {
+    musicStatus.textContent = "Loading your song… ♡";
+    try {
+      await pageSong.play();
+      musicToggle.textContent = "Pause music ♡";
+      musicToggle.setAttribute("aria-pressed", "true");
+      musicStatus.textContent = "Enjoy the song while you look around 🎶";
+    } catch (error) {
+      musicStatus.textContent = "The song couldn't play. Check that the MP3 is uploaded beside index.html in your GitHub repository.";
+    }
+  } else {
+    pageSong.pause();
+    musicToggle.textContent = "When this song plays, it reminds me of you ♡";
+    musicToggle.setAttribute("aria-pressed", "false");
+    musicStatus.textContent = "Music paused ♡";
+  }
+});
+
 // Floating hearts
 const heartBackground = document.getElementById("heart-background");
 
