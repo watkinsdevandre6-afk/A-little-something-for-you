@@ -493,10 +493,80 @@ p { line-height: 1.9; }
   margin: 0;
 }
 
+
+/* Temporary inactivity closure: keep the original site visible but inaccessible. */
+body { overflow: hidden; }
+body > #heart-background,
+body > main.page {
+  filter: blur(5px);
+  pointer-events: none !important;
+  user-select: none !important;
+  -webkit-user-select: none !important;
+}
+#inactivity-notice {
+  position: fixed;
+  inset: 0;
+  z-index: 999999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 22px;
+  overflow-y: auto;
+  background: rgba(255, 240, 246, 0.48);
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+}
+.inactivity-card {
+  width: min(680px, 100%);
+  max-height: calc(100vh - 44px);
+  overflow-y: auto;
+  padding: clamp(28px, 5vw, 48px);
+  text-align: center;
+  border: 1px solid rgba(255,255,255,0.88);
+  border-radius: 28px;
+  background: rgba(255, 250, 252, 0.94);
+  box-shadow: 0 20px 65px rgba(177, 101, 136, 0.22);
+}
+.inactivity-face { font-size: 54px; line-height: 1.2; margin-bottom: 18px; }
+.inactivity-card h2 {
+  color: #c66e95;
+  font-size: clamp(27px, 6vw, 39px);
+  font-weight: normal;
+  line-height: 1.25;
+  margin-bottom: 20px;
+}
+.inactivity-card p {
+  color: #795b6a;
+  font-size: 15px;
+  line-height: 1.95;
+  margin: 0 0 15px;
+}
+.inactivity-signoff {
+  margin-top: 22px !important;
+  color: #c66e95 !important;
+  font-style: italic;
+}
+@media (max-width: 500px) {
+  #inactivity-notice { padding: 13px; }
+  .inactivity-card { max-height: calc(100vh - 26px); border-radius: 22px; padding: 25px 19px; }
+  .inactivity-card p { font-size: 14px; line-height: 1.8; }
+}
+
 </style>
 </head>
 
 <body>
+<div id="inactivity-notice" role="dialog" aria-modal="true" aria-labelledby="inactivity-title">
+  <section class="inactivity-card">
+    <div class="inactivity-face" aria-hidden="true">☹️</div>
+    <h2 id="inactivity-title">Website Currently Closed</h2>
+    <p>Unfortunately, this little corner of happiness is currently closed due to inactivity. It has been resting quietly for a while, and for now, the memories, messages, pictures, and little reminders inside are taking a break.</p>
+    <p>We know you may have wanted to come in, look around, read a little message, or revisit some of the moments kept here. We are sorry for the disappointment, but the website is temporarily unavailable and cannot be accessed at this time.</p>
+    <p>Please understand that this closure is intentional. The website has not disappeared, and the things inside have not been erased; they are simply being kept behind this notice while the site remains inactive. The page you can see in the background is only a blurred glimpse of the website, not an invitation to enter.</p>
+    <p>Thank you for stopping by and for understanding. If the website becomes active again in the future, access may be restored then. Until that time, please come back another day and see whether anything has changed.</p>
+    <p class="inactivity-signoff">Website access is currently unavailable. We apologise for the inconvenience. ☹️</p>
+  </section>
+</div>
 <div id="heart-background" aria-hidden="true"></div>
 
 <main class="page">
