@@ -494,80 +494,11 @@ p { line-height: 1.9; }
 }
 
 
-/* Temporary inactivity closure: keep the original site visible but inaccessible. */
-body { overflow: hidden; }
-body > #heart-background,
-body > main.page {
-  filter: blur(5px);
-  pointer-events: none !important;
-  user-select: none !important;
-  -webkit-user-select: none !important;
-}
-#inactivity-notice {
-  position: fixed;
-  inset: 0;
-  z-index: 999999;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 22px;
-  overflow-y: auto;
-  background: rgba(255, 240, 246, 0.48);
-  backdrop-filter: blur(2px);
-  -webkit-backdrop-filter: blur(2px);
-}
-.inactivity-card {
-  width: min(680px, 100%);
-  max-height: calc(100vh - 44px);
-  overflow-y: auto;
-  padding: clamp(28px, 5vw, 48px);
-  text-align: center;
-  border: 1px solid rgba(255,255,255,0.88);
-  border-radius: 28px;
-  background: rgba(255, 250, 252, 0.94);
-  box-shadow: 0 20px 65px rgba(177, 101, 136, 0.22);
-}
-.inactivity-face { font-size: 54px; line-height: 1.2; margin-bottom: 18px; }
-.inactivity-card h2 {
-  color: #c66e95;
-  font-size: clamp(27px, 6vw, 39px);
-  font-weight: normal;
-  line-height: 1.25;
-  margin-bottom: 20px;
-}
-.inactivity-card p {
-  color: #795b6a;
-  font-size: 15px;
-  line-height: 1.95;
-  margin: 0 0 15px;
-}
-.inactivity-signoff {
-  margin-top: 22px !important;
-  color: #c66e95 !important;
-  font-style: italic;
-}
-@media (max-width: 500px) {
-  #inactivity-notice { padding: 13px; }
-  .inactivity-card { max-height: calc(100vh - 26px); border-radius: 22px; padding: 25px 19px; }
-  .inactivity-card p { font-size: 14px; line-height: 1.8; }
-}
 
 </style>
 </head>
 
 <body>
-<div id="inactivity-notice" role="dialog" aria-modal="true" aria-labelledby="inactivity-title">
-  <section class="inactivity-card">
-    <div class="inactivity-face" aria-hidden="true">🥲</div>
-    <h2 id="inactivity-title">Website Temporarily Closed 🥀</h2>
-    <p>Hey you…</p>
-    <p>It seems like this little website hasn't had a visitor in a while. 🥲</p>
-    <p>So for now, it's taking a little break.</p>
-    <p>Don't worry, though. This isn't goodbye, and the website hasn't disappeared forever.</p>
-    <p class="inactivity-signoff">Maybe check back again soon? ❤️</p>
-    <p class="inactivity-signoff">Until then… see you soon. 💗</p>
-  </section>
-</div>
 <div id="heart-background" aria-hidden="true"></div>
 
 <main class="page">
@@ -1269,6 +1200,45 @@ document.addEventListener("visibilitychange", () => {
       }
     });
   });
+</script>
+>
+<script>
+  // A tiny, casual Easter egg. It appears after a short random countdown.
+  (function () {
+    const messages = [
+      'idk, some people just make your day better without even trying lol ♡',
+      'not naming names but someone has been on my mind lately 🙃',
+      'some people are just a little hard not to smile about 💗',
+      'ever catch yourself smiling because of one person? yeah… anyway 😭',
+      'lowkey, one person can make the most random day better. just saying 🤍'
+    ];
+    const egg = document.createElement('button');
+    egg.type = 'button';
+    egg.id = 'tiny-easter-egg';
+    egg.setAttribute('aria-label', 'Tap for a tiny secret');
+    egg.textContent = '♡';
+    egg.style.cssText = 'position:fixed;right:18px;bottom:18px;z-index:1000000;border:0;border-radius:50%;width:42px;height:42px;background:#ffe2ed;color:#c66e95;font-size:25px;box-shadow:0 4px 16px #c66e9540;cursor:pointer;display:none;';
+
+    const toast = document.createElement('div');
+    toast.id = 'tiny-easter-message';
+    toast.style.cssText = 'position:fixed;left:50%;bottom:72px;transform:translateX(-50%);z-index:1000001;width:min(340px,calc(100vw - 36px));padding:17px 20px;border-radius:18px;background:#fff7fa;color:#92516b;text-align:center;box-shadow:0 8px 28px #9b4c682e;font-size:14px;line-height:1.7;display:none;';
+    document.body.append(egg, toast);
+
+    let hideTimer;
+    egg.addEventListener('click', () => {
+      window.clearTimeout(hideTimer);
+      toast.textContent = messages[Math.floor(Math.random() * messages.length)];
+      toast.style.display = 'block';
+      egg.style.display = 'none';
+      // Keep the message up for a random 5–10 seconds, then hide it.
+      hideTimer = window.setTimeout(() => {
+        toast.style.display = 'none';
+      }, 5000 + Math.random() * 5000);
+    });
+
+    // Randomly wait 5–10 seconds before the little heart appears.
+    window.setTimeout(() => { egg.style.display = 'block'; }, 5000 + Math.random() * 5000);
+  })();
 </script>
 </body>
 </html>
