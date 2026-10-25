@@ -600,6 +600,18 @@ p { line-height: 1.9; }
     </form>
   </section>
 
+  <section class="section-card" id="disappearCountdownCard">
+    <h2>Just disappearing for a while 🌙</h2>
+    <p class="section-intro" id="disappearIntro">I’ll be disappearing for a little while soon. Just taking a step back for a bit. 🤍</p>
+    <div class="countdown-grid" id="disappearTimer" aria-label="Countdown until Vannie disappears">
+      <div class="time-unit"><span class="time-number" id="disappearDays">00</span><span class="time-label">Days</span></div>
+      <div class="time-unit"><span class="time-number" id="disappearHours">00</span><span class="time-label">Hours</span></div>
+      <div class="time-unit"><span class="time-number" id="disappearMinutes">00</span><span class="time-label">Minutes</span></div>
+      <div class="time-unit"><span class="time-number" id="disappearSeconds">00</span><span class="time-label">Seconds</span></div>
+    </div>
+    <p class="countdown-date" id="disappearCaption">A little quiet time, 26–30 October ♡</p>
+  </section>
+
   <section class="section-card">
     <h2>Until your special day 🎂</h2>
     <p class="section-intro">
@@ -1003,6 +1015,34 @@ function nextDailyMessage() {
   box.textContent = dailyMessages[index];
 }
 
+// Countdown for Vannie's little break: 26–30 October 2026.
+const disappearStart = new Date(2026, 9, 26, 0, 0, 0);
+const disappearEnd = new Date(2026, 9, 31, 0, 0, 0);
+function updateDisappearCountdown() {
+  const now = new Date();
+  const intro = document.getElementById("disappearIntro");
+  const caption = document.getElementById("disappearCaption");
+  const timer = document.getElementById("disappearTimer");
+  if (now < disappearStart) {
+    timer.style.display = "grid";
+    intro.textContent = "I’ll be disappearing for a while soon… just taking a little step back. 🤍";
+    caption.textContent = "Time until I go quiet — 26 October 2026 ♡";
+    const t = Math.max(0, Math.floor((disappearStart - now) / 1000));
+    document.getElementById("disappearDays").textContent = String(Math.floor(t / 86400)).padStart(2,"0");
+    document.getElementById("disappearHours").textContent = String(Math.floor((t % 86400) / 3600)).padStart(2,"0");
+    document.getElementById("disappearMinutes").textContent = String(Math.floor((t % 3600) / 60)).padStart(2,"0");
+    document.getElementById("disappearSeconds").textContent = String(t % 60).padStart(2,"0");
+  } else if (now < disappearEnd) {
+    timer.style.display = "none";
+    intro.textContent = "I’m disappearing for a while. I’ll be a little quiet from 26–30 October… 🌙";
+    caption.textContent = "Taking a little step back. See you soon ♡";
+  } else {
+    timer.style.display = "none";
+    intro.textContent = "I’m back from my little break now. 🤍";
+    caption.textContent = "The quiet days are over ♡";
+  }
+}
+
 // Birthday countdown to 13 December 2026.
 const birthdayStart = new Date(2026, 11, 13, 0, 0, 0);
 const birthdayEnd = new Date(2026, 11, 14, 0, 0, 0);
@@ -1060,8 +1100,10 @@ function openBirthdayLetter() {
 setAutomaticSmileMessage();
 setAutomaticDailyMessage();
 updateCountdown();
+updateDisappearCountdown();
 
 setInterval(updateCountdown, 1000);
+setInterval(updateDisappearCountdown, 1000);
 setInterval(setAutomaticDailyMessage, 30000);
 
 // Refresh the reminder and the six cards at midnight.
@@ -1203,7 +1245,7 @@ document.addEventListener("visibilitychange", () => {
 </script>
 >
 <script>
-  // A tiny, casual Easter egg. It appears after a short random countdown.
+  // A once-a-day little Easter egg.
   (function () {
     const messages = [
       'idk, some people just make your day better without even trying lol ♡',
@@ -1212,31 +1254,47 @@ document.addEventListener("visibilitychange", () => {
       'ever catch yourself smiling because of one person? yeah… anyway 😭',
       'lowkey, one person can make the most random day better. just saying 🤍'
     ];
+    const today = new Date();
+    const dayKey = `kaylla-secret-${today.getFullYear()}-${today.getMonth()+1}-${today.getDate()}`;
+    try { if (localStorage.getItem(dayKey) === 'shown') return; } catch (_) {}
+
+    const style = document.createElement('style');
+    style.textContent = `
+      #tiny-easter-egg { position:fixed; left:50%; top:50%; transform:translate(-50%,-50%); z-index:1000000;
+        width:min(42vmin,220px); height:min(42vmin,220px); min-width:130px; min-height:130px; max-width:220px; max-height:220px;
+        border:0; border-radius:50%; background:radial-gradient(circle at 35% 28%,#fff8fc,#ffd5e5 68%,#f5a4c4);
+        color:#c34f82; font-size:clamp(76px,20vmin,150px); line-height:1; box-shadow:0 0 0 12px #ffe5ef80,0 12px 50px #c66e9545;
+        cursor:pointer; display:none; animation:eggHeartPop 1.2s cubic-bezier(.16,1.3,.3,1) both, eggHeartPulse 2s 1.2s ease-in-out infinite; }
+      #tiny-easter-message { position:fixed; inset:0; z-index:1000001; display:none; align-items:center; justify-content:center; padding:24px;
+        background:#fff0f6ed; backdrop-filter:blur(8px); color:#92516b; text-align:center; font-family:Georgia,'Times New Roman',serif; }
+      #tiny-easter-message .secret-card { width:min(560px,100%); padding:clamp(28px,7vw,58px) clamp(22px,6vw,48px); border:1px solid #f5c4d8;
+        border-radius:30px; background:linear-gradient(145deg,#fffafd,#ffe7f0); box-shadow:0 25px 90px #a94f742e; font-size:clamp(22px,5vw,34px); line-height:1.55;
+        animation:secretMessageOpen 1.15s cubic-bezier(.16,1.1,.25,1) both; }
+      #tiny-easter-message .secret-sparkle { display:block; font-size:clamp(44px,10vw,70px); margin-bottom:14px; animation:secretSparkle .9s .25s ease both; }
+      @keyframes eggHeartPop { 0%{opacity:0;transform:translate(-50%,-50%) scale(.08) rotate(-35deg)} 65%{opacity:1;transform:translate(-50%,-50%) scale(1.14) rotate(8deg)} 100%{opacity:1;transform:translate(-50%,-50%) scale(1) rotate(0)} }
+      @keyframes eggHeartPulse { 0%,100%{filter:drop-shadow(0 0 0 #f4a3c4)} 50%{filter:drop-shadow(0 0 20px #f4a3c4)} }
+      @keyframes secretMessageOpen { 0%{opacity:0;transform:scale(.15) rotate(-8deg);filter:blur(12px)} 65%{opacity:1;transform:scale(1.05) rotate(1deg);filter:blur(0)} 100%{opacity:1;transform:scale(1) rotate(0);filter:blur(0)} }
+      @keyframes secretSparkle { 0%{opacity:0;transform:translateY(25px) scale(.2) rotate(-35deg)} 70%{opacity:1;transform:translateY(-5px) scale(1.2) rotate(8deg)} 100%{opacity:1;transform:translateY(0) scale(1) rotate(0)} }
+      @media(prefers-reduced-motion:reduce){#tiny-easter-egg,#tiny-easter-message .secret-card,#tiny-easter-message .secret-sparkle{animation:none!important}}
+    `;
+    document.head.appendChild(style);
+
     const egg = document.createElement('button');
-    egg.type = 'button';
-    egg.id = 'tiny-easter-egg';
-    egg.setAttribute('aria-label', 'Tap for a tiny secret');
-    egg.textContent = '♡';
-    egg.style.cssText = 'position:fixed;right:18px;bottom:18px;z-index:1000000;border:0;border-radius:50%;width:42px;height:42px;background:#ffe2ed;color:#c66e95;font-size:25px;box-shadow:0 4px 16px #c66e9540;cursor:pointer;display:none;';
-
+    egg.type = 'button'; egg.id = 'tiny-easter-egg'; egg.setAttribute('aria-label', 'Tap the heart for a little secret'); egg.textContent = '♡';
     const toast = document.createElement('div');
-    toast.id = 'tiny-easter-message';
-    toast.style.cssText = 'position:fixed;left:50%;bottom:72px;transform:translateX(-50%);z-index:1000001;width:min(340px,calc(100vw - 36px));padding:17px 20px;border-radius:18px;background:#fff7fa;color:#92516b;text-align:center;box-shadow:0 8px 28px #9b4c682e;font-size:14px;line-height:1.7;display:none;';
+    toast.id = 'tiny-easter-message'; toast.setAttribute('role','dialog'); toast.setAttribute('aria-modal','true');
+    toast.innerHTML = '<div class="secret-card"><span class="secret-sparkle">💗</span><div class="secret-copy"></div></div>';
     document.body.append(egg, toast);
-
     let hideTimer;
     egg.addEventListener('click', () => {
-      window.clearTimeout(hideTimer);
-      toast.textContent = messages[Math.floor(Math.random() * messages.length)];
-      toast.style.display = 'block';
-      egg.style.display = 'none';
-      // Keep the message up for a random 5–10 seconds, then hide it.
-      hideTimer = window.setTimeout(() => {
-        toast.style.display = 'none';
-      }, 5000 + Math.random() * 5000);
+      let message;
+      try { message = messages[Math.floor(Math.random() * messages.length)]; localStorage.setItem(dayKey, 'shown'); }
+      catch (_) { message = messages[Math.floor(Math.random() * messages.length)]; }
+      toast.querySelector('.secret-copy').textContent = message;
+      toast.style.display = 'flex'; egg.style.display = 'none';
+      hideTimer = window.setTimeout(() => { toast.style.display = 'none'; }, 7000 + Math.random() * 3000);
     });
-
-    // Randomly wait 5–10 seconds before the little heart appears.
+    // Show the heart once per day, after a short random delay.
     window.setTimeout(() => { egg.style.display = 'block'; }, 5000 + Math.random() * 5000);
   })();
 </script>
