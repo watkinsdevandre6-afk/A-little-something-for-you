@@ -1298,5 +1298,96 @@ document.addEventListener("visibilitychange", () => {
     window.setTimeout(() => { egg.style.display = 'block'; }, 5000 + Math.random() * 5000);
   })();
 </script>
+
+<style>
+/* Temporary midnight letter and permanent closure screen */
+#vannieClosure { position:fixed; inset:0; z-index:999999; display:none; align-items:center; justify-content:center; padding:22px; overflow-y:auto; background:radial-gradient(circle at top,#fff8fb,#f7dce8 72%,#efc5d8); color:#694b5b; font-family:Georgia,"Times New Roman",serif; }
+#vannieClosure .closure-card { width:min(100%,560px); text-align:center; padding:28px 22px; border:1px solid #edc4d5; border-radius:24px; background:rgba(255,255,255,.88); box-shadow:0 16px 50px rgba(135,65,99,.15); }
+#vannieClosure h1 { font-size:clamp(1.6rem,6vw,2.25rem); margin:0 0 14px; }
+#vannieClosure p { line-height:1.75; margin:12px 0; }
+#vannieEnvelope { display:block; margin:22px auto 10px; border:0; background:transparent; cursor:pointer; color:inherit; }
+#vannieEnvelope .env { font-size:clamp(5rem,25vw,8rem); line-height:1.1; filter:drop-shadow(0 8px 8px #dba8be); transition:transform .2s; }
+#vannieEnvelope:hover .env { transform:translateY(-4px) rotate(-2deg); }
+#vannieEnvelope span:last-child { display:block; margin-top:8px; font-size:1rem; }
+#vannieLetter { display:none; text-align:left; margin-top:20px; padding:22px; border-radius:16px; background:#fffafd; border:1px solid #f0d2df; white-space:pre-line; line-height:1.8; }
+#vanniePermanentClosed { display:none; }
+#vannieClosure.closed #vannieEnvelope, #vannieClosure.closed #vannieLetter { display:none !important; }
+#vannieClosure.closed #vanniePermanentClosed { display:block; }
+#vannieClosure .small-note { font-size:.9rem; color:#98798a; margin-top:20px; }
+</style>
+<div id="vannieClosure" role="dialog" aria-modal="true" aria-label="A little message">
+  <div class="closure-card">
+    <section id="vannieTemporaryMessage">
+      <h1>A little letter for you, Kaylla ♡</h1>
+      <p>Before you go, there’s something I wanted you to read.</p>
+      <button id="vannieEnvelope" type="button" aria-label="Tap to open the envelope">
+        <span class="env" aria-hidden="true">💌</span>
+        <span>Tap the envelope to open it ♡</span>
+      </button>
+      <article id="vannieLetter">Hey Kaylla ♡
+
+I wanted to tell you this honestly, without making things awkward or putting any pressure on you.
+
+My feelings didn’t grow because we spoke a lot or because of any one thing you did for me. They grew because of who you are. There’s something about your personality, your smile, your dimples, and the way you carry yourself that made you stand out to me. The more I got to know you, the more I realised that I liked you for you.
+
+I know feelings aren’t something you can force, and I’m not expecting anything from you by telling you this. I just didn’t want to keep pretending that it was nothing. You genuinely became someone special to me.
+
+And honestly, some of those other guys are stupid for not seeing how special you are. That’s their loss, though — you don’t need anyone else’s approval to know your worth.
+
+I hope you keep being yourself and keep smiling. You deserve good things, even on the days when you don’t feel like it.
+
+Take care of yourself, Kaylla. 🤍
+
+See ya later after the paper.</article>
+      <p class="small-note">This little message will only be here for a short while. ♡</p>
+    </section>
+    <section id="vanniePermanentClosed">
+      <h1>This little page is now closed 🤍</h1>
+      <p>The message has had its moment. Thank you for stopping by.</p>
+      <p class="small-note">Take care, Kaylla. ♡</p>
+    </section>
+  </div>
+</div>
+<script>
+(function () {
+  const overlay = document.getElementById('vannieClosure');
+  const envelope = document.getElementById('vannieEnvelope');
+  const letter = document.getElementById('vannieLetter');
+  // South African local time (SAST), independent of the visitor's device timezone.
+  function saParts() {
+    const parts = new Intl.DateTimeFormat('en-CA', {
+      timeZone: 'Africa/Johannesburg', year: 'numeric', month: '2-digit', day: '2-digit',
+      hour: '2-digit', minute: '2-digit', second: '2-digit', hourCycle: 'h23'
+    }).formatToParts(new Date());
+    const out = {};
+    for (const p of parts) if (p.type !== 'literal') out[p.type] = p.value;
+    return out;
+  }
+  function updateClosure() {
+    const t = saParts();
+    const date = `${t.year}-${t.month}-${t.day}`;
+    const time = Number(t.hour) * 3600 + Number(t.minute) * 60 + Number(t.second);
+    const startDate = '2026-10-29';
+    const started = date > startDate || (date === startDate && time >= 0);
+    const ended = date > startDate || (date === startDate && time >= 3600);
+    if (started) {
+      overlay.style.display = 'flex';
+      document.body.style.overflow = 'hidden';
+      if (ended) overlay.classList.add('closed');
+      else overlay.classList.remove('closed');
+    } else {
+      overlay.style.display = 'none';
+      document.body.style.overflow = '';
+    }
+  }
+  envelope.addEventListener('click', function () {
+    letter.style.display = 'block';
+    envelope.style.display = 'none';
+  });
+  updateClosure();
+  setInterval(updateClosure, 1000);
+})();
+</script>
+
 </body>
 </html>
