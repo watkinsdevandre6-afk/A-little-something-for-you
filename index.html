@@ -1309,7 +1309,8 @@ document.addEventListener("visibilitychange", () => {
 #vannieEnvelope .env { font-size:clamp(5rem,25vw,8rem); line-height:1.1; filter:drop-shadow(0 8px 8px #dba8be); transition:transform .2s; }
 #vannieEnvelope:hover .env { transform:translateY(-4px) rotate(-2deg); }
 #vannieEnvelope span:last-child { display:block; margin-top:8px; font-size:1rem; }
-#vannieLetter { display:none; text-align:left; margin-top:20px; padding:22px; border-radius:16px; background:#fffafd; border:1px solid #f0d2df; white-space:pre-line; line-height:1.8; }
+#vannieLetter { display:none; text-align:left; margin-top:20px; padding:22px; border-radius:16px; background:#fffafd; border:1px solid #f0d2df; white-space:pre-line; line-height:1.8; max-height:55vh; overflow-y:auto; overscroll-behavior:contain; -webkit-overflow-scrolling:touch; scrollbar-gutter:stable; }
+#vannieLetter:focus { outline:2px solid #edc4d5; outline-offset:2px; }
 #vanniePermanentClosed { display:none; }
 #vannieClosure.closed #vannieEnvelope, #vannieClosure.closed #vannieLetter { display:none !important; }
 #vannieClosure.closed #vanniePermanentClosed { display:block; }
@@ -1324,7 +1325,7 @@ document.addEventListener("visibilitychange", () => {
         <span class="env" aria-hidden="true">💌</span>
         <span>Tap the envelope to open it ♡</span>
       </button>
-      <article id="vannieLetter">♡ Something I wanted you to know ♡
+      <article id="vannieLetter" tabindex="0" aria-label="Scrollable letter for Kaylla">♡ Something I wanted you to know ♡
 Hey, Kaylla. 🤍
 
 If you're reading this, I hope you take a little moment to read it with an open heart. There are some things I've wanted to express properly, and I think the best way to do that is to be honest with you.
